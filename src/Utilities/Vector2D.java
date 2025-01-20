@@ -34,7 +34,7 @@ public final class Vector2D {
         this.x = v.x;
         this.y = v.y;
 
-        return new Vector2D(x, y);
+        return new Vector2D(x, y); // or this. ?
     }
 
     // compare for equality (note Object type argument)
@@ -103,7 +103,7 @@ public final class Vector2D {
         return this;
     }
 
-    // multiply with factor
+    // multiply with factor (scaler multiplication)
     public Vector2D mult(double fac) {
         this.x *= fac;
         this.y *= fac;
