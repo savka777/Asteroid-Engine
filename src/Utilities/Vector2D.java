@@ -53,20 +53,26 @@ public final class Vector2D {
         return "(" + x + "," + y + ")";
     }
 
-    //  magnitude (= "length") of this vector
+    //  magnitude, distance from the ogigin (length of the vector)
     public double mag() {
-        return 0.0;
+       double square_x = this.x * this.x;
+       double square_y = this.y * this.y;
+
+       return Math.sqrt(square_x + square_y);
+
     }
 
     // angle between vector and horizontal axis in radians in range [-PI,PI]
 // can be calculated using Math.atan2 
     public double angle() {
-        return 0.0;
+        return Math.atan2(this.y,this.x);
     }
 
     // angle between this vector and another vector in range [-PI,PI]
     public double angle(Vector2D other) {
-        return 0.0;
+        double dotProduct = this.dot(other);
+        double determinant = this.x * other.y - this.y * other.x;
+        return Math.atan2(determinant, dotProduct);
     }
 
     // add argument vector
@@ -84,9 +90,11 @@ public final class Vector2D {
         return this;
     }
 
-    // weighted add - surprisingly useful
+    // adding a scaled version of another vector
     public Vector2D addScaled(Vector2D v, double fac) {
-        return null;
+        this.x += v.x * fac;
+        this.y += v.y * fac;
+        return this;
     }
 
     // subtract argument vector
@@ -112,17 +120,28 @@ public final class Vector2D {
 
     // rotate by angle given in radians
     public Vector2D rotate(double angle) {
+        double cosTheta = Math.cos(angle);
+        double sinTheta = Math.sin(angle);
+
+        double newX = this.x * cosTheta - this.y * sinTheta;
+        double newY = this.x * sinTheta + this.y * cosTheta;
+
+        this.x = newX;  
+        this.y = newY;
         return this;
     }
 
     // "dot product" ("scalar product") with argument vector
+    // Ax * Bx + Ay * By
     public double dot(Vector2D v) {
-        return 0.0;
+        return this.x * v.x + this.y * v.y;
     }
 
-    // distance to argument vector
+    // distance to argument vector (use euclidean distance formula)
     public double dist(Vector2D v) {
-        return 0.0;
+        double dx = this.x - v.x;
+        double dy = this.y - v.y;
+        return Math.sqrt(dx * dx + dy * dy); // Euclidean formula
     }
 
     // normalise vector so that magnitude becomes 1
