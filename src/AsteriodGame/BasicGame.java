@@ -2,14 +2,16 @@ package AsteriodGame;
 import Utilities.JEasyFrame;
 
 import javax.swing.*;
+
+import static AsteriodGame.Constants.DELAY;
+
 import java.util.ArrayList;
 import java.util.List;
-import static AsteriodGame.Constants.DELAY;
 
 // Game Manager
 public class BasicGame {
     public List<BasicAsteriod> asteroids; // Asteroids that will spawn on screen
-    public static final int N_INIT_ASTEROIDS = 10;
+    public static final int N_INIT_ASTEROIDS = 15;
 
     // Init of Game
     public BasicGame(){
