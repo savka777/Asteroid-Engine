@@ -1,31 +1,22 @@
 package AsteriodGame;
-import static AsteriodGame.Constants.*;
-
 import java.awt.*;
-import Utilities.Vector2D;
+
+import static AsteriodGame.Constants.*;
 
 // Game Object
 public class BasicAsteriod {
-    // private double x;
-    // private double y;
-    // private double vx;
-    // private double vy;
-
-    // coordinate vector
-    private Vector2D V_Coordinates;
-    private Vector2D V_Velocity;
+    private double x;
+    private double y;
+    private double vx;
+    private double vy;
     private static final int RADIUS = 10;
     private static final double MAX_SPEED = 500;
 
     public BasicAsteriod(double x, double y, double vx, double vy) {
-        V_Coordinates = new Vector2D(x,y);
-        V_Velocity = new Vector2D(vx,vy);
-        V_Coordinates.add(V_Velocity);
-
-        // this.x = x;
-        // this.y = y;
-        // this.vx = vx;
-        // this.vy = vy;
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
     }
 
     // Making a new Game Object with random physics properties added to them
@@ -50,15 +41,10 @@ public class BasicAsteriod {
 
     // Update the physics to our game objects for animation, this is called by our game manager
     public void update(){
-        // x += vx * DT;
-        // y += vy * DT;
-        // x = (x + FRAME_WIDTH) % FRAME_WIDTH;
-        // y = (y + FRAME_HEIGHT) % FRAME_HEIGHT;
-
-        V_Coordinates.addScaled(V_Velocity, DT);
-        V_Coordinates.wrap(FRAME_WIDTH, FRAME_HEIGHT); // Wraps around
-
-
+        x += vx * DT;
+        y += vy * DT;
+        x = (x + FRAME_WIDTH) % FRAME_WIDTH;
+        y = (y + FRAME_HEIGHT) % FRAME_HEIGHT;
     }
 
     // Render a game object
@@ -66,7 +52,7 @@ public class BasicAsteriod {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.3f));
 
         g.setColor(Color.RED);
-        g.fillOval((int) V_Coordinates.x - RADIUS, (int) V_Coordinates.y - RADIUS, 2 * RADIUS, 2*RADIUS);
+        g.fillOval((int) x - RADIUS, (int) y - RADIUS, 2 * RADIUS, 2*RADIUS);
 
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
     }
