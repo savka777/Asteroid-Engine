@@ -1,8 +1,8 @@
 package AsteriodGame;
-
 import javax.swing.*;
+import Utilities.JEasyFrame;
 import java.awt.*;
-
+import java.awt.event.*;
 public class BasicGameMenu extends JComponent {
     private BasicGame game;
     private boolean isMenuActive = true;
@@ -52,12 +52,8 @@ public class BasicGameMenu extends JComponent {
             // Create and start game
             BasicGame game = new BasicGame();
             BasicView view = new BasicView(game);
-            JFrame frame = new JFrame("Asteroids");
-            frame.add(view);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-
+            new JEasyFrame(view, "game").addKeyListener( (KeyListener)game.controller);
+        
             // Start game loop in separate thread
             new Thread(() -> {
                 try {

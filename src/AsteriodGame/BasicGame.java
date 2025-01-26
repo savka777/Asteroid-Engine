@@ -4,12 +4,16 @@ import Utilities.JEasyFrame;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle.Control;
+
 import static AsteriodGame.Constants.DELAY;
 
 // Game Manager
 public class BasicGame {
     public List<BasicAsteriod> asteroids; // Asteroids that will spawn on screen
     public static final int N_INIT_ASTEROIDS = 10;
+    public BasicController controller;
+    public BasicShip ship;
 
     // Init of Game
     public BasicGame(){
@@ -17,11 +21,14 @@ public class BasicGame {
         for(int i = 0; i < N_INIT_ASTEROIDS; i++){
             asteroids.add(BasicAsteriod.MakeRandomAsteroid());
         }
+        controller = new BasicKeys();
+        ship = new BasicShip(controller);
+
     }
 //    public static void main(String[] args) throws InterruptedException {
 //        BasicGame game = new BasicGame();
 //        BasicView view = new BasicView(game);
-//        new JEasyFrame(view, "Basic Game");
+//        new JEasyFrame(view, "game").addKeyListener((KeyListener)game.controller);
 //
 //        while(true){
 //            game.update(); // Update the asteroids
@@ -46,5 +53,6 @@ public static void main(String[] args) {
         for(BasicAsteriod a : asteroids){
             a.update();
         }
+        ship.update();
     }
 }
