@@ -21,12 +21,19 @@ public class BasicView extends JComponent {
         g.setColor(BG_COLOR);
         g.fillRect(0,0,getWidth(),getHeight());
 
+        game.ship.draw(g);
         // Get the astroids from the game manager, and render them on the view
         List<BasicAsteriod> gameAsteroids = game.asteroids;
         for(BasicAsteriod a : gameAsteroids){
             a.draw(g);
+            int xA = (int) a.position.x; // maybe add explosive effect here? 
+            int yA = (int) a.position.y;
+
+            int xB = (int) game.ship.position.x;
+            int yB = (int) game.ship.position.y;
+
+            g.drawLine((int)xA, (int)yA, (int)xB, (int)yB); 
         }
-        game.ship.draw(g);
     }
 
     @Override
