@@ -139,9 +139,11 @@ public final class Vector2D {
 
     // distance to argument vector (use euclidean distance formula)
     public double dist(Vector2D v) {
-        double dx = this.x - v.x;
-        double dy = this.y - v.y;
-        return Math.sqrt(dx * dx + dy * dy); // Euclidean formula
+        // Vector2D w = this.subtract(v);
+        // return w.mag();
+        Double distanceX = this.x - v.x;
+        Double distanceY  = this.y - v.y;
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     }
 
     // normalise vector so that magnitude becomes 1 (we dont care about speed just direction)

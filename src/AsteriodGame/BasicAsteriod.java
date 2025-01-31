@@ -12,15 +12,15 @@ public class BasicAsteriod {
     // private double vy;
 
     // coordinate vector
-    private Vector2D V_Coordinates;
-    private Vector2D V_Velocity;
+    public Vector2D position; // change later
+    public Vector2D velocity;
     private static final int RADIUS = 10;
     private static final double MAX_SPEED = 500;
 
     public BasicAsteriod(double x, double y, double vx, double vy) {
-        V_Coordinates = new Vector2D(x,y);
-        V_Velocity = new Vector2D(vx,vy);
-        V_Coordinates.add(V_Velocity);
+        position = new Vector2D(x,y);
+        velocity = new Vector2D(vx,vy);
+        position.add(velocity);
 
         // this.x = x;
         // this.y = y;
@@ -55,10 +55,8 @@ public class BasicAsteriod {
         // x = (x + FRAME_WIDTH) % FRAME_WIDTH;
         // y = (y + FRAME_HEIGHT) % FRAME_HEIGHT;
 
-        V_Coordinates.addScaled(V_Velocity, DT);
-        V_Coordinates.wrap(FRAME_WIDTH, FRAME_HEIGHT); // Wraps around
-
-
+        position.addScaled(velocity, DT);
+        position.wrap(FRAME_WIDTH, FRAME_HEIGHT); // Wraps around
     }
 
     // Render a game object
@@ -66,7 +64,7 @@ public class BasicAsteriod {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.3f));
 
         g.setColor(Color.RED);
-        g.fillOval((int) V_Coordinates.x - RADIUS, (int) V_Coordinates.y - RADIUS, 2 * RADIUS, 2*RADIUS);
+        g.fillOval((int) position.x - RADIUS, (int) position.y - RADIUS, 2 * RADIUS, 2*RADIUS);
 
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
     }
