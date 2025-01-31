@@ -2,11 +2,11 @@ package AsteriodGame;
 
 import java.awt.event.*;
 
-public class BasicKeys extends KeyAdapter implements BasicController {
+public class InputManager extends KeyAdapter implements Controller {
 
     Action action;
 
-    public BasicKeys() {
+    public InputManager() {
         action = new Action();
     }
 
@@ -42,11 +42,11 @@ public class BasicKeys extends KeyAdapter implements BasicController {
             this.action.thrust = 0;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.action.turn = 0; // Changed from 1 to 0
+            this.action.turn = 0;
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-            this.action.turn = 0; // Changed from -1 to 0
+            this.action.turn = 0;
         }
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {

@@ -1,15 +1,16 @@
 package AsteriodGame;
+
 import javax.swing.*;
 import Utilities.JEasyFrame;
 import java.awt.*;
 import java.awt.event.*;
-public class BasicGameMenu extends JComponent {
-    private BasicGame game;
-    private boolean isMenuActive = true;
+
+public class GameMenu extends JComponent {
+
     private JButton startButton;
     private JButton exitButton;
 
-    public BasicGameMenu() {
+    public GameMenu() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Create title label
@@ -50,14 +51,14 @@ public class BasicGameMenu extends JComponent {
     private void startGame() {
         try {
             // Create and start game
-            BasicGame game = new BasicGame();
-            BasicView view = new BasicView(game);
-            new JEasyFrame(view, "game").addKeyListener( (KeyListener)game.controller);
-        
+            GameManager game = new GameManager();
+            GameView view = new GameView(game);
+            new JEasyFrame(view, "game").addKeyListener((KeyListener) game.controller);
+
             // Start game loop in separate thread
             new Thread(() -> {
                 try {
-                    while(true) {
+                    while (true) {
                         game.update();
                         view.repaint();
                         Thread.sleep(Constants.DELAY);
@@ -77,7 +78,7 @@ public class BasicGameMenu extends JComponent {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Asteroids Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new BasicGameMenu());
+        frame.add(new GameMenu());
         frame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

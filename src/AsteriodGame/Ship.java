@@ -3,32 +3,27 @@ package AsteriodGame;
 import Utilities.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-
 import static AsteriodGame.Constants.*;
 
-public class BasicShip {
+public class Ship extends GameObject {
     public static final int RADIUS = 8;
     public static final double STEER_RATE = 2 * Math.PI;
     public static final double MAG_ACCELERATION = 100;
     public static final double DRAG = 0.005;
     public static final Color COLOR = Color.BLUE;
-
-    public Vector2D position;
-    public Vector2D velocity;
     public Vector2D direction;
-
-    public BasicController controller;
-
+    public Controller controller;
     private boolean isThrusting = false;
 
-    public BasicShip(BasicController controller) {
+    public Ship(Controller controller) {
+        super(new Vector2D(FRAME_WIDTH / 2, FRAME_HEIGHT / 2),new Vector2D(0,0),RADIUS);
         this.controller = controller;
-        this.position = new Vector2D(FRAME_WIDTH / 2, FRAME_HEIGHT / 2);
-        this.velocity = new Vector2D(0, 0);
         this.direction = new Vector2D(0, -1);
     }
 
+    @Override
     public void update() {
+        System.out.println("Ship update: velocity = " + velocity);
         // invoke basic controller
         Action action = controller.action();
         isThrusting = action.thrust > 0;
@@ -36,10 +31,11 @@ public class BasicShip {
         velocity.addScaled(direction, action.thrust * MAG_ACCELERATION * DT);
         velocity.mult(1 - DRAG * DT);
 
-        position.addScaled(velocity, DT);
-        position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
+        super.position.addScaled(velocity, DT);
+        super.position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
     }
 
+    @Override
     public void draw(Graphics2D g) {
         int[] XP = new int[3];
         int[] YP = new int[3];
@@ -49,7 +45,6 @@ public class BasicShip {
         YP[0] = -RADIUS;
 
         // Left wing
-
         XP[1] = -RADIUS;
         YP[1] = RADIUS;
 
@@ -84,7 +79,7 @@ public class BasicShip {
         // Right point of thrust
 
         AffineTransform at = g.getTransform(); // save current state of transformation matrix
-        g.translate(position.x, position.y); // translate coordinate system to ship's position (centerr of ship))
+        g.translate(super.position.x, super.position.y); // translate coordinate system to ship's position (centerr of ship))
         double rotation = direction.angle() + Math.PI / 2;
         g.rotate(rotation);
         g.scale(DRAWING_SCALE, DRAWING_SCALE);

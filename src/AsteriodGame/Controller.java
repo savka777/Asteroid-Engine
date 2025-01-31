@@ -1,5 +1,5 @@
 package AsteriodGame;
 
-public interface BasicController {
+public interface Controller {
     public Action action();
 }
