@@ -21,9 +21,20 @@ public class GameView extends JComponent {
 
         game.ship.draw(g);
         // Get the astroids from the game manager, and render them on the view
-        List<Asteriod> gameAsteroids = game.asteroids;
-        for (GameObject asteroid : gameAsteroids) {
-            asteroid.draw(g);
+        List<GameObject> gameAsteroids = game.gameObjects;
+
+        for (GameObject gameObject : gameAsteroids) {
+            if (gameObject instanceof Asteriod) {
+                gameObject.draw(g);
+            }
+
+            if (gameObject instanceof Bullet) {
+                gameObject.draw(g);
+            }
+        }
+
+        if (game.ship.isAlive()) {
+            game.ship.draw(g);
         }
     }
 

@@ -59,7 +59,6 @@ public final class Vector2D {
        double square_y = this.y * this.y;
 
        return Math.sqrt(square_x + square_y);
-
     }
 
     // angle between vector and horizontal axis in radians in range [-PI,PI]
@@ -175,6 +174,10 @@ public final class Vector2D {
         v.y = mag * Math.sin(angle);
 
         return v;
+    }
+
+    public double[] toArray() {
+        return new double[]{x, y};
     }
 
 }

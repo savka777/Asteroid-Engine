@@ -59,8 +59,8 @@ public class GameMenu extends JComponent {
             new Thread(() -> {
                 try {
                     while (true) {
-                        game.update();
-                        view.repaint();
+                        game.update(); // updates the current state of the game it's objects
+                        view.repaint(); // calls the paintComponent method of the view where we draw the game objects after their updates
                         Thread.sleep(Constants.DELAY);
                     }
                 } catch (InterruptedException e) {

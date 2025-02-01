@@ -7,18 +7,20 @@ import java.util.List;
 // Game Manager
 public class GameManager {
     public static final int N_INIT_ASTEROIDS = 10;
-    public List<Asteriod> asteroids; // Asteroids that will spawn on screen
+    public List<GameObject> gameObjects;
     public Controller controller;
     public Ship ship;
 
-    // Init of Game
+    // Init of Game AND manage state of Game
     public GameManager() {
-        asteroids = new ArrayList<Asteriod>();
+        gameObjects = new ArrayList<GameObject>();
         for (int i = 0; i < N_INIT_ASTEROIDS; i++) {
-            asteroids.add(Asteriod.MakeRandomAsteroid());
+            gameObjects.add(Asteriod.MakeRandomAsteroid());
         }
+
         controller = new InputManager();
         ship = new Ship(controller);
+        gameObjects.add(ship);
     }
 
     // This one has the Game Menu
@@ -34,9 +36,23 @@ public class GameManager {
     }
 
     public void update() {
-        for (Asteriod asteroid: asteroids) {
-            asteroid.update();
+        List<GameObject> alivGameObjects = new ArrayList<>();
+
+        for(GameObject obj : gameObjects) {
+            obj.update();
+            if(obj.isAlive()) {
+                alivGameObjects.add(obj);
+            }
         }
+
+        if(ship.bullet != null && ship.bullet.isAlive()) {
+            System.out.println("Bullet added");
+            alivGameObjects.add(ship.bullet);
+            ship.bullet = null;
+        }
+
+        gameObjects = alivGameObjects;
+        // Update the game objects
         ship.update();
     }
 }

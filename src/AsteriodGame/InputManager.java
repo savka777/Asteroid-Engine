@@ -21,18 +21,21 @@ public class InputManager extends KeyAdapter implements Controller {
         if (key == KeyEvent.VK_UP) {
             this.action.thrust = 1;
         }
+
         if (key == KeyEvent.VK_LEFT) {
             this.action.turn = -1;
         }
+
         if (key == KeyEvent.VK_RIGHT) {
             this.action.turn = +1;
         }
+
         if (key == KeyEvent.VK_DOWN) {
             this.action.thrust = -1;
+        }
 
-            if (key == KeyEvent.VK_SPACE) {
-                this.action.shoot = true;
-            }
+        if (key == KeyEvent.VK_SPACE) {
+            this.action.shoot = true;
         }
     }
 

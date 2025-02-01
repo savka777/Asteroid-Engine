@@ -11,6 +11,7 @@ public class Asteriod extends GameObject {
     private static final int RADIUS = 10;
     private static final double MAX_SPEED = 500;
 
+
     public Asteriod(double x, double y, double vx, double vy) {
         super(new Vector2D(x,y),new Vector2D(vx,vy),RADIUS);
         position.add(super.velocity);
@@ -34,6 +35,16 @@ public class Asteriod extends GameObject {
                 vy);
     }
 
+
+    @Override
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    @Override
+    public void setAlive() {
+        isAlive = false;
+    }
     // Update the physics to our game objects for animation, this is called by our
     // game manager
     @Override

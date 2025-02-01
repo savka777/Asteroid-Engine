@@ -10,5 +10,8 @@ public class Constants {
     public static final int DELAY = 20; // in milliseconds
     public static final double DT = DELAY / 1000.0; // in seconds
     public static final double DRAWING_SCALE = 1.0;
+    public static final int BULLET_SPEED = 100;
+    public static final int N_INIT_ASTEROIDS = 10;
+
 
 }
