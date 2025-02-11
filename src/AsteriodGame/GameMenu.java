@@ -9,6 +9,8 @@ public class GameMenu extends JComponent {
 
     private JButton startButton;
     private JButton exitButton;
+    Image img = Toolkit.getDefaultToolkit().createImage("./src/AsteriodGame/Static/menuPhoto.jpg");
+
 
     public GameMenu() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -46,6 +48,7 @@ public class GameMenu extends JComponent {
         // Draw background
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
+        // g.drawImage(img, 0, 0, null);
     }
 
     private void startGame() {

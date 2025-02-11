@@ -36,6 +36,7 @@ public class InputManager extends KeyAdapter implements Controller {
 
         if (key == KeyEvent.VK_SPACE) {
             this.action.shoot = true;
+            
         }
     }
 

@@ -18,6 +18,7 @@ public class Ship extends GameObject {
     private boolean isThrusting = false;
     public Bullet bullet = null;
     private boolean isAlive = true;
+    public boolean canShoot = true;
 
    
 
@@ -71,10 +72,11 @@ public class Ship extends GameObject {
         super.position.addScaled(velocity, DT);
         super.position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
 
-        if(action.shoot) {
+        if(action.shoot && canShoot) {
             makeBullet();
             action.shoot = false;
         }
+
     }
 
     @Override
@@ -118,16 +120,16 @@ public class Ship extends GameObject {
         XPTHRUST[2] = RADIUS / 2;
         YPTHRUST[2] = RADIUS;
 
-      
-
+    
         AffineTransform at = g.getTransform(); // save current state of transformation matrix
         g.translate(super.position.x, super.position.y); // translate coordinate system to ship's position (centerr of ship))
         double rotation = direction.angle() + Math.PI / 2;
         g.rotate(rotation);
         g.scale(DRAWING_SCALE, DRAWING_SCALE);
-        g.setColor(Color.yellow);
+        g.setColor(Color.white);
 
-        g.fillPolygon(XP, YP, XP.length);
+
+        g.drawPolygon(XP, YP, XP.length);
 
         if (isThrusting) { // if thrust, draw thrust
             g.setColor(Color.WHITE);

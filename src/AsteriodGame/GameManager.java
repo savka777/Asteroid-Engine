@@ -1,8 +1,8 @@
 package AsteriodGame;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 // Game Manager
 public class GameManager {
@@ -36,22 +36,39 @@ public class GameManager {
     }
 
     public void update() {
-        List<GameObject> alivGameObjects = new ArrayList<>();
+        List<GameObject> aliveGameObjects = new ArrayList<>();
 
-        for(GameObject obj : gameObjects) {
-            obj.update();
-            if(obj.isAlive()) {
-                alivGameObjects.add(obj);
+        synchronized (GameManager.class) {
+            for (GameObject obj : gameObjects) {
+                obj.update();
+//                if (obj.isAlive()) {
+//                    aliveGameObjects.add(obj);
+//                }
+            }
+            for (int i = 0; i < gameObjects.size(); i++) {
+                for (int j = i + 1; j < gameObjects.size(); j++) {
+                    GameObject objA = gameObjects.get(i);
+                    GameObject objB = gameObjects.get(j);
+                    // Each object handles the collision
+                    objA.collisionHandling(objB);
+                    objB.collisionHandling(objA);
+                }
+            }
+
+            for (GameObject obj : gameObjects) {
+                if (obj.isAlive()) {
+                    aliveGameObjects.add(obj);
+                }
             }
         }
 
-        if(ship.bullet != null && ship.bullet.isAlive()) {
+        if (ship.bullet != null && ship.bullet.isAlive()) {
             System.out.println("Bullet added");
-            alivGameObjects.add(ship.bullet);
+            aliveGameObjects.add(ship.bullet);
             ship.bullet = null;
         }
 
-        gameObjects = alivGameObjects;
+        gameObjects = aliveGameObjects;
         // Update the game objects
         ship.update();
     }

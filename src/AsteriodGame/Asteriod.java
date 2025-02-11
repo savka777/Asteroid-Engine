@@ -11,7 +11,6 @@ public class Asteriod extends GameObject {
     private static final int RADIUS = 10;
     private static final double MAX_SPEED = 500;
 
-
     public Asteriod(double x, double y, double vx, double vy) {
         super(new Vector2D(x,y),new Vector2D(vx,vy),RADIUS);
         position.add(super.velocity);
@@ -60,7 +59,7 @@ public class Asteriod extends GameObject {
 
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         g.setColor(Color.RED);
-        g.fillOval((int) position.x - RADIUS, (int) position.y - RADIUS, 2 * RADIUS, 2 * RADIUS);
+        g.drawOval((int) position.x - RADIUS, (int) position.y - RADIUS, 2 * RADIUS, 2 * RADIUS);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 }
