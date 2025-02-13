@@ -1,11 +1,16 @@
 package AsteriodGame;
+
+import Utilities.Vector2D;
+
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 // Game Manager
 public class GameManager {
+    public static GameManager instance;
     public static final int N_INIT_ASTEROIDS = 10;
     public List<GameObject> gameObjects;
     public Controller controller;
@@ -14,10 +19,12 @@ public class GameManager {
     private static int lives = 10;
     private static int level = 1;
     public static boolean isGameOver = false;
+    public int totalAsteroidsInLevel;
 
 
     // Init of Game AND manage state of Game
     public GameManager() {
+        instance = this;
         gameObjects = new ArrayList<GameObject>();
         for (int i = 0; i < N_INIT_ASTEROIDS; i++) {
             gameObjects.add(Asteriod.MakeRandomAsteroid());
@@ -26,22 +33,28 @@ public class GameManager {
         controller = new InputManager();
         ship = new Ship(controller);
         gameObjects.add(ship);
+        totalAsteroidsInLevel = N_INIT_ASTEROIDS;
+    }
+
+    public static void addGameObject(GameObject obj) {
+        instance.gameObjects.add(obj);
     }
 
     public void newLevel() {
         level++;
         try {
             Thread.sleep(1000);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
-        synchronized(GameManager.class) {
+        synchronized (GameManager.class) {
             gameObjects.clear();
-            for (int i = 0; i < N_INIT_ASTEROIDS + 2 * (level-1); i++) {
+            int numberOfAsteroid = N_INIT_ASTEROIDS + 2 * (level -1);
+            for (int i = 0; i < numberOfAsteroid + 2 * (level - 1); i++) {
                 gameObjects.add(Asteriod.MakeRandomAsteroid());
-
             }
+
+            totalAsteroidsInLevel = numberOfAsteroid;
             ship = new Ship(controller);
             gameObjects.add(ship);
         }
@@ -50,16 +63,17 @@ public class GameManager {
     public void newLife() {
         try {
             Thread.sleep(1000);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
-        synchronized(GameManager.class) {
+        synchronized (GameManager.class) {
             gameObjects.clear();
-            for (int i = 0; i < N_INIT_ASTEROIDS + 2 * (level-1); i++) {
+            int numberOfAsteroid = N_INIT_ASTEROIDS + 2 * (level -1);
+            for (int i = 0; i < N_INIT_ASTEROIDS + 2 * (level - 1); i++) {
                 gameObjects.add(Asteriod.MakeRandomAsteroid());
 
             }
+            totalAsteroidsInLevel = numberOfAsteroid;
             ship = new Ship(controller);
             gameObjects.add(ship);
         }
@@ -126,6 +140,7 @@ public class GameManager {
     }
 
 
+
     public static void incScore(int inc) {
         int oldScore = score;
         score += inc;
@@ -136,9 +151,9 @@ public class GameManager {
         }
     }
 
-    public static void loseLife()  {
+    public static void loseLife() {
         lives--;
-        if (lives==0)
+        if (lives == 0)
             isGameOver = true;
     }
 
@@ -153,6 +168,33 @@ public class GameManager {
     public static int getLives() {
         return lives;
     }
+
+    public static void spawnExplosion(Vector2D position) {
+        // Spawn 20 particles with random velocities and a 1-second lifetime.
+        for (int i = 0; i < 20; i++) {
+            double angle = Math.random() * 2 * Math.PI;
+            double speed = 50 + Math.random() * 50;
+            double vx = speed * Math.cos(angle);
+            double vy = speed * Math.sin(angle);
+            Particle p = new Particle(position.x, position.y, vx, vy, 1.0, Color.ORANGE);
+            addGameObject(p);
+        }
+    }
+
+    public static int getRemainingAsteroids(){
+        int count = 0;
+        for(GameObject obj : instance.gameObjects){
+            if(obj instanceof Asteriod && obj.isAlive()){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static int getTotalAsteroidsThisLevel() {
+        return instance.totalAsteroidsInLevel;
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

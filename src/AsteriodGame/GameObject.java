@@ -6,15 +6,15 @@ import java.awt.geom.Area;
 import Utilities.Vector2D;
 
 public abstract class GameObject {
-    
-    public Vector2D position; 
+
+    public Vector2D position;
     public Vector2D velocity;
-    public boolean dead; 
+    public boolean dead;
     public double radius;
     public boolean isAlive = true;
 
 
-    public GameObject(Vector2D position, Vector2D velocity, double radius){
+    public GameObject(Vector2D position, Vector2D velocity, double radius) {
         this.position = position;
         this.velocity = velocity;
         this.radius = radius;
@@ -29,22 +29,24 @@ public abstract class GameObject {
         double radiusSum = this.radius + other.radius;
         return distanceSquared <= radiusSum * radiusSum;
     }
-    public void collisionHandling(GameObject other){
-        if(this.getClass() != other.getClass() && this.overlap(other)){
-            if((this instanceof Bullet && other instanceof Asteriod) ||
-            this instanceof Asteriod && other instanceof Bullet){
+
+    public void collisionHandling(GameObject other) {
+        if (this.getClass() != other.getClass() && this.overlap(other)) {
+            if ((this instanceof Bullet && other instanceof Asteriod) ||
+                    this instanceof Asteriod && other instanceof Bullet) {
                 GameManager.incScore(100);
                 this.setAlive();
                 other.setAlive();
+                GameManager.spawnExplosion(other.position);
             }
 
-            if(this instanceof Ship && other instanceof Asteriod){
+            if (this instanceof Ship && other instanceof Asteriod) {
                 this.setAlive();
                 // disable bullet
                 ((Ship) this).canShoot = false;
                 GameManager.loseLife();
 
-            }else if(this instanceof Asteriod && other instanceof Ship){
+            } else if (this instanceof Asteriod && other instanceof Ship) {
                 other.setAlive();
                 // disable bullet
                 ((Ship) other).canShoot = false;
@@ -58,7 +60,9 @@ public abstract class GameObject {
     }
 
     public abstract void update();
+
     public abstract boolean isAlive();
+
     public abstract void setAlive();
 
     public abstract void draw(Graphics2D g);

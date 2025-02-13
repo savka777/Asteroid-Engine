@@ -16,17 +16,17 @@ public class Asteriod extends GameObject {
     private int radius;
 
     public Asteriod(double x, double y, double vx, double vy) {
-        super(new Vector2D(x,y),new Vector2D(vx,vy), BASE_RADIUS);
-        this.radius = BASE_RADIUS + (int)(Math.random() * 11);
+        super(new Vector2D(x, y), new Vector2D(vx, vy), BASE_RADIUS);
+        this.radius = BASE_RADIUS + (int) (Math.random() * 11);
         generateRandomShape();
         position.add(super.velocity);
     }
 
-    private void generateRandomShape(){
-        int numVertices = 8 + (int)(Math.random() * 5);
-        int [] yPoints = new int[numVertices];
-        int [] xPoints = new int [numVertices];
-        double angleStep = 2 * Math.PI /numVertices;
+    private void generateRandomShape() {
+        int numVertices = 8 + (int) (Math.random() * 5);
+        int[] yPoints = new int[numVertices];
+        int[] xPoints = new int[numVertices];
+        double angleStep = 2 * Math.PI / numVertices;
 
         for (int i = 0; i < numVertices; i++) {
             double angle = i * angleStep;
@@ -66,8 +66,7 @@ public class Asteriod extends GameObject {
     public void setAlive() {
         isAlive = false;
     }
-    // Update the physics to our game objects for animation, this is called by our
-    // game manager
+
     @Override
     public void update() {
 
