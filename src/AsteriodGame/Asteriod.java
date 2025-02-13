@@ -3,17 +3,39 @@ package AsteriodGame;
 import static AsteriodGame.Constants.*;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+
 import Utilities.Vector2D;
 
 // Game Object
 public class Asteriod extends GameObject {
     // coordinate vector
-    private static final int RADIUS = 10;
-    private static final double MAX_SPEED = 500;
+    private static final int BASE_RADIUS = 10;
+    private static final double MAX_SPEED = 200;
+    private Polygon shape;
+    private int radius;
 
     public Asteriod(double x, double y, double vx, double vy) {
-        super(new Vector2D(x,y),new Vector2D(vx,vy),RADIUS);
+        super(new Vector2D(x,y),new Vector2D(vx,vy), BASE_RADIUS);
+        this.radius = BASE_RADIUS + (int)(Math.random() * 11);
+        generateRandomShape();
         position.add(super.velocity);
+    }
+
+    private void generateRandomShape(){
+        int numVertices = 8 + (int)(Math.random() * 5);
+        int [] yPoints = new int[numVertices];
+        int [] xPoints = new int [numVertices];
+        double angleStep = 2 * Math.PI /numVertices;
+
+        for (int i = 0; i < numVertices; i++) {
+            double angle = i * angleStep;
+
+            double randomRadius = radius * (0.8 + Math.random() * 0.4);
+            xPoints[i] = (int) (randomRadius * Math.cos(angle));
+            yPoints[i] = (int) (randomRadius * Math.sin(angle));
+        }
+        shape = new Polygon(xPoints, yPoints, numVertices);
     }
 
     public static Asteriod MakeRandomAsteroid() {
@@ -56,10 +78,11 @@ public class Asteriod extends GameObject {
     // Render a game object
     @Override
     public void draw(Graphics2D g) {
+        AffineTransform oldTransform = g.getTransform();
 
-        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-        g.setColor(Color.RED);
-        g.drawOval((int) position.x - RADIUS, (int) position.y - RADIUS, 2 * RADIUS, 2 * RADIUS);
-        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        g.translate(position.x, position.y);
+        g.setColor(Color.WHITE);
+        g.drawPolygon(shape);
+        g.setTransform(oldTransform);
     }
 }

@@ -44,7 +44,7 @@ public class Bullet extends GameObject {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(Color.YELLOW);
+        g.setColor(Color.WHITE);
         g.fillOval((int) position.x, (int) position.y, 5, 5);
     }
 }

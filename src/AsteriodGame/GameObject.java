@@ -22,12 +22,6 @@ public abstract class GameObject {
         System.out.println("GameObject constructor: velocity = " + this.velocity);
     }
 
-//    public boolean overlap(GameObject other){
-//        Area area = new Area((Shape) this);
-//        area.intersect(new Area((Shape) other));
-//        return !area.isEmpty();
-//    }
-
     public boolean overlap(GameObject other) {
         double dx = this.position.x - other.position.x;
         double dy = this.position.y - other.position.y;
@@ -39,6 +33,7 @@ public abstract class GameObject {
         if(this.getClass() != other.getClass() && this.overlap(other)){
             if((this instanceof Bullet && other instanceof Asteriod) ||
             this instanceof Asteriod && other instanceof Bullet){
+                GameManager.incScore(100);
                 this.setAlive();
                 other.setAlive();
             }
@@ -47,15 +42,19 @@ public abstract class GameObject {
                 this.setAlive();
                 // disable bullet
                 ((Ship) this).canShoot = false;
+                GameManager.loseLife();
 
             }else if(this instanceof Asteriod && other instanceof Ship){
                 other.setAlive();
                 // disable bullet
                 ((Ship) other).canShoot = false;
+                GameManager.loseLife();
+
             }
 
             // add collision rules such as scores and other stuff i might need
         }
+        // add what happens when asteroid collide
     }
 
     public abstract void update();
