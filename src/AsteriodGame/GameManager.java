@@ -16,7 +16,7 @@ public class GameManager {
     public Controller controller;
     public Ship ship;
     private static int score = 0;
-    private static int lives = 10;
+    private static int lives = 3;
     private static int level = 1;
     public static boolean isGameOver = false;
     public int totalAsteroidsInLevel;
@@ -42,6 +42,7 @@ public class GameManager {
 
     public void newLevel() {
         level++;
+        score +=200; // extra points when player finished the level
         try {
             Thread.sleep(1000);
         } catch (Exception e) {
@@ -132,6 +133,7 @@ public class GameManager {
         // If there are no asteroids remaining, move to the next level
         if (noAsteroids) {
             newLevel();
+            addLife();
         }
         // If the ship has been destroyed, remove a life and restart the level
         else if (noShip) {
@@ -155,6 +157,12 @@ public class GameManager {
         lives--;
         if (lives == 0)
             isGameOver = true;
+    }
+
+    public static void addLife(){
+        if(lives != 0){
+            lives++;
+        }
     }
 
     public static int getScore() {

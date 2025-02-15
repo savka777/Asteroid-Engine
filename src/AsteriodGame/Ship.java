@@ -11,7 +11,7 @@ import static AsteriodGame.Constants.*;
 public class Ship extends GameObject {
     public static final int RADIUS = 8;
     public static final double STEER_RATE = 2 * Math.PI;
-    public static final double MAG_ACCELERATION = 100;
+    public static final double MAG_ACCELERATION = 200;
     public static final double DRAG = 0.005;
     public static final Color COLOR = Color.BLUE;
     public Vector2D direction;
@@ -88,6 +88,7 @@ public class Ship extends GameObject {
         XP[0] = 0;
         YP[0] = -RADIUS;
 
+
         // Left wing
         XP[1] = -RADIUS;
         YP[1] = RADIUS;
@@ -127,6 +128,8 @@ public class Ship extends GameObject {
         g.rotate(rotation);
         g.scale(DRAWING_SCALE, DRAWING_SCALE);
         g.setColor(Color.white);
+//        g.drawLine(0,-RADIUS, 5,-RADIUS *2);
+
 
 
         g.drawPolygon(XP, YP, XP.length);

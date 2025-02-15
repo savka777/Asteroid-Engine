@@ -156,15 +156,13 @@ public final class Vector2D {
     // wrap-around operation, assumes w> 0 and h>0
     // remember to manage negative values of the coordinates
     public Vector2D wrap(double w, double h) {
-
-        if(this.x < 0) this.x += w;
-        else if(this.x > w) this.x -= w;
-
-        if(this.y < 0) this.y += h;
-        else if (this.y > h) this.y -= h;
-
+        // The modulo operation in Java can produce a negative remainder.
+        // To always get a positive result, we adjust by adding w (or h) and then taking modulo again.
+        this.x = ((this.x % w) + w) % w;
+        this.y = ((this.y % h) + h) % h;
         return this;
     }
+
 
     // construct vector with given polar coordinates
     public static Vector2D polar(double angle, double mag) {
