@@ -65,6 +65,7 @@ public class Asteriod extends GameObject {
     @Override
     public void setAlive() {
         isAlive = false;
+        SoundManager.playAsteroidExplosionSound();
     }
 
     @Override

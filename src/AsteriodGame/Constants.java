@@ -12,6 +12,9 @@ public class Constants {
     public static final double DRAWING_SCALE = 1.0;
     public static final int BULLET_SPEED = 100;
     public static final int N_INIT_ASTEROIDS = 10;
+    public static final int N_PLAYER_LIFES = 1;
+    public static final int LEVEL_START = 1;
+    public static final int PLAYER_SCORE = 0;
 
 
 }

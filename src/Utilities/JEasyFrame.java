@@ -13,6 +13,7 @@ public class JEasyFrame extends JFrame {
         pack();
         this.setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         repaint();
     }
 }

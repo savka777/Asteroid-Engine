@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static AsteriodGame.Constants.*;
+
 
 // Game Manager
 public class GameManager {
@@ -15,9 +17,9 @@ public class GameManager {
     public List<GameObject> gameObjects;
     public Controller controller;
     public Ship ship;
-    private static int score = 0;
-    private static int lives = 3;
-    private static int level = 1;
+    private static int score = PLAYER_SCORE;
+    private static int lives = N_PLAYER_LIFES;
+    private static int level = LEVEL_START;
     public static boolean isGameOver = false;
     public int totalAsteroidsInLevel;
 
@@ -197,6 +199,13 @@ public class GameManager {
             }
         }
         return count;
+    }
+
+    public static void resetGameState() {
+        isGameOver = false;
+        lives = N_PLAYER_LIFES;
+        score = PLAYER_SCORE;
+        level = LEVEL_START;
     }
 
     public static int getTotalAsteroidsThisLevel() {

@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import AsteriodGame.SoundManager;
 
 public class GameMenu extends JComponent {
 
@@ -17,6 +18,8 @@ public class GameMenu extends JComponent {
     private Font retroFont;
     private List<Asteriod> backgroundAsteroids;
     private Timer backgroundTimer;
+
+
 
     public GameMenu() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -84,23 +87,22 @@ public class GameMenu extends JComponent {
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
         button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-        button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent evt) {
-                button.setContentAreaFilled(true);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent evt) {
-                button.setContentAreaFilled(false);
-            }
-        });
+//        button.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseEntered(MouseEvent evt) {
+//                button.setContentAreaFilled(true);
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent evt) {
+//                button.setContentAreaFilled(false);
+//            }
+//        });
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Draw black background for the retro look
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -111,18 +113,43 @@ public class GameMenu extends JComponent {
     }
 
     private void startGame() {
+        SoundManager.startMainMusic();
         backgroundTimer.stop();
         try {
             GameManager game = new GameManager();
             GameView view = new GameView(game);
-            new JEasyFrame(view, "game").addKeyListener((KeyListener) game.controller);
+            new JEasyFrame(view, "GAME").addKeyListener((KeyListener) game.controller);
 
             new Thread(() -> {
                 try {
                     while (true) {
                         if (!GameManager.isGameOver) {
+
                             game.update();
+                        } else {
+
+                            int finalScore = GameManager.getScore();
+
+                            SwingUtilities.invokeLater(() -> {
+
+                                JFrame oldFrame = (JFrame) SwingUtilities.getWindowAncestor(view);
+                                if (oldFrame != null) {
+                                    oldFrame.dispose();
+                                }
+
+                                // Show the new GameOverMenu
+                                JFrame gameOverFrame = new JFrame("Game Over");
+                                gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                gameOverFrame.add(new GameOverMenu(finalScore));
+                                gameOverFrame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+                                gameOverFrame.setLocationRelativeTo(null);
+                                gameOverFrame.setVisible(true);
+                            });
+
+                            break;
                         }
+
+                        // Continue with normal cycle
                         view.repaint();
                         Thread.sleep(Constants.DELAY);
                     }
@@ -130,6 +157,9 @@ public class GameMenu extends JComponent {
                     e.printStackTrace();
                 }
             }).start();
+
+
+
 
             SwingUtilities.getWindowAncestor(this).dispose();
         } catch (Exception e) {

@@ -56,6 +56,7 @@ public class Ship extends GameObject {
     }
 
     public void setAlive() {
+        SoundManager.playPlayerDeadSound();
         isAlive = false;
     }
 
@@ -74,6 +75,7 @@ public class Ship extends GameObject {
 
         if (action.shoot && canShoot) {
             makeBullet();
+            SoundManager.playShootingSound();
             action.shoot = false;
         }
 

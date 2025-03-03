@@ -74,12 +74,12 @@ public class GameView extends JComponent {
 
             g.setColor(Color.WHITE);
             g.drawRect(barX, barY, barWidth, barHeight);
-
-            if (GameManager.getLives() == 0) {
-                String goStr = "GAME OVER Score: " + GameManager.getScore();
-                int goWidth = fm.stringWidth(goStr);
-                g.drawString(goStr, (Constants.FRAME_WIDTH - goWidth) / 2, Constants.FRAME_HEIGHT / 2);
-            }
+//
+//            if (GameManager.getLives() == 0) {
+//                String goStr = "GAME OVER Score: " + GameManager.getScore();
+//                int goWidth = fm.stringWidth(goStr);
+//                g.drawString(goStr, (Constants.FRAME_WIDTH - goWidth) / 2, Constants.FRAME_HEIGHT / 2);
+//            }
         }
     }
 
