@@ -10,9 +10,9 @@ import static AsteriodGame.Constants.*;
 
 public class Ship extends GameObject {
     public static final int RADIUS = 8;
-    public static final double STEER_RATE = 2 * Math.PI;
-    public static final double MAG_ACCELERATION = 200;
-    public static final double DRAG = 0.005;
+    public static final double STEER_RATE = 2.5 * Math.PI;
+    public static final double MAG_ACCELERATION = 400;
+    public static final double DRAG = 0.001;
     public static final Color COLOR = Color.BLUE;
     public Vector2D direction;
     public Controller controller;
