@@ -163,7 +163,6 @@ public final class Vector2D {
         return this;
     }
 
-
     // construct vector with given polar coordinates
     public static Vector2D polar(double angle, double mag) {
         Vector2D v = new Vector2D();

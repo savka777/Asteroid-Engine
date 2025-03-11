@@ -8,21 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static AsteriodGame.Constants.*;
-
-
 // Game Manager
 public class GameManager {
     public static GameManager instance;
     public static final int N_INIT_ASTEROIDS = 10;
     public List<GameObject> gameObjects;
     public Controller controller;
-    public Ship ship;
+    public PLayerShip ship;
+
+    public EnemyShip enemyShip;
     private static int score = PLAYER_SCORE;
     private static int lives = N_PLAYER_LIFES;
     private static int level = LEVEL_START;
     public static boolean isGameOver = false;
     public int totalAsteroidsInLevel;
-
 
     // Init of Game AND manage state of Game
     public GameManager() {
@@ -33,9 +32,14 @@ public class GameManager {
         }
 
         controller = new InputManager();
-        ship = new Ship(controller);
+        ship = new PLayerShip(controller);
         gameObjects.add(ship);
         totalAsteroidsInLevel = N_INIT_ASTEROIDS;
+
+        enemyShip = new EnemyShip(null,100,100);
+        AIController aiController = new AIController(ship,enemyShip);
+        enemyShip.controller = aiController;
+        gameObjects.add(enemyShip);
     }
 
     public static void addGameObject(GameObject obj) {
@@ -58,7 +62,7 @@ public class GameManager {
             }
 
             totalAsteroidsInLevel = numberOfAsteroid;
-            ship = new Ship(controller);
+            ship = new PLayerShip(controller);
             gameObjects.add(ship);
         }
     }
@@ -77,7 +81,7 @@ public class GameManager {
 
             }
             totalAsteroidsInLevel = numberOfAsteroid;
-            ship = new Ship(controller);
+            ship = new PLayerShip(controller);
             gameObjects.add(ship);
         }
     }
@@ -109,7 +113,7 @@ public class GameManager {
                 //     aliveObjects.addAll(a.spawnedAsteroids);
                 //     a.spawnedAsteroids.clear();
                 // }
-            } else if (o instanceof Ship) {
+            } else if (o instanceof PLayerShip) {
                 noShip = false;
             }
 
@@ -123,6 +127,10 @@ public class GameManager {
             if (ship.bullet != null && ship.bullet.isAlive()) {
                 aliveObjects.add(ship.bullet);
                 ship.bullet = null;
+            }
+            if(enemyShip.bullet != null && enemyShip.bullet.isAlive()){
+                aliveObjects.add(enemyShip.bullet);
+                enemyShip.bullet = null;
             }
         }
 

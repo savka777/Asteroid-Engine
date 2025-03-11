@@ -4,16 +4,15 @@ import Utilities.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.*;
 
 import static AsteriodGame.Constants.*;
 
-public class Ship extends GameObject {
-    public static final int RADIUS = 8;
-    public static final double STEER_RATE = 2.5 * Math.PI;
+public class PLayerShip extends GameObject {
+    public static final int RADIUS = PLAYER_RADIUS;
+    public static final double STEER_RATE = 4.5 * Math.PI;
     public static final double MAG_ACCELERATION = 400;
-    public static final double DRAG = 0.001;
-    public static final Color COLOR = Color.BLUE;
+    public static final double DRAG = 0.005;
+    public static final Color COLOR = Color.WHITE;
     public Vector2D direction;
     public Controller controller;
     private boolean isThrusting = false;
@@ -22,7 +21,7 @@ public class Ship extends GameObject {
     public boolean canShoot = true;
 
 
-    public Ship(Controller controller) {
+    public PLayerShip(Controller controller) {
         super(new Vector2D(FRAME_WIDTH / 2, FRAME_HEIGHT / 2), new Vector2D(0, 0), RADIUS);
         this.controller = controller;
         this.direction = new Vector2D(0, -1);
@@ -46,7 +45,7 @@ public class Ship extends GameObject {
         Vector2D bulletVelocity = new Vector2D(direction).mult(BULLET_SPEED);
 
         // Create the bullet at the transformed tip position with the calculated velocity
-        bullet = new Bullet(tipWorld[0], tipWorld[1], bulletVelocity.x, bulletVelocity.y);
+        bullet = new Bullet(this,tipWorld[0], tipWorld[1], bulletVelocity.x, bulletVelocity.y);
         System.out.println("Bullet created at: (" + tipWorld[0] + ", " + tipWorld[1] + ")");
         System.out.println("Bullet velocity: (" + bulletVelocity.x + ", " + bulletVelocity.y + ")");
     }
@@ -129,15 +128,13 @@ public class Ship extends GameObject {
         double rotation = direction.angle() + Math.PI / 2;
         g.rotate(rotation);
         g.scale(DRAWING_SCALE, DRAWING_SCALE);
-        g.setColor(Color.white);
+        g.setColor(COLOR);
 //        g.drawLine(0,-RADIUS, 5,-RADIUS *2);
-
-
 
         g.drawPolygon(XP, YP, XP.length);
 
         if (isThrusting) { // if thrust, draw thrust
-            g.setColor(Color.WHITE);
+            g.setColor(COLOR);
             g.fillPolygon(XPTHRUST, YPTHRUST, XPTHRUST.length);
         }
         g.setTransform(at); // restore transformation matrix to original state

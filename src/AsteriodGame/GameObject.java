@@ -3,6 +3,7 @@ package AsteriodGame;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.util.concurrent.BlockingDeque;
 
 import Utilities.Vector2D;
 
@@ -58,7 +59,16 @@ public abstract class GameObject {
 
 
     public void collisionHandling(GameObject other) {
-        if (this.getClass() != other.getClass() && this.overlapWithArea(other)) {
+
+        if (this == other) return;
+        // player bullet does kill player
+        if (this instanceof Bullet bullet) {
+            if (bullet.whoIsFiring == other) return;
+        } else if (other instanceof Bullet bullet) {
+            if (bullet.whoIsFiring == this) return;
+        }
+
+        if (this.getClass() != other.getClass() && this.overlap(other)) {
             if ((this instanceof Bullet && other instanceof Asteriod) ||
                     this instanceof Asteriod && other instanceof Bullet) {
                 GameManager.incScore(100);
@@ -67,20 +77,39 @@ public abstract class GameObject {
                 GameManager.spawnExplosion(other.position);
             }
 
-            if (this instanceof Ship && other instanceof Asteriod) {
+            if (this instanceof PLayerShip && other instanceof Asteriod) {
                 this.setAlive();
-                // disable bullet
-                ((Ship) this).canShoot = false;
+                GameManager.spawnExplosion(this.position);
+                ((PLayerShip) this).canShoot = false;
                 GameManager.loseLife();
 
-            } else if (this instanceof Asteriod && other instanceof Ship) {
+            } else if (this instanceof Asteriod && other instanceof PLayerShip) {
                 other.setAlive();
-                // disable bullet
-                ((Ship) other).canShoot = false;
+                ((PLayerShip) other).canShoot = false;
                 GameManager.loseLife();
 
-            }
+            } else if (this instanceof Bullet && other instanceof PLayerShip) {
+                other.setAlive();
+                ((PLayerShip) other).canShoot = false;
+                GameManager.loseLife();
 
+            } else if (this instanceof PLayerShip && other instanceof Bullet) {
+                this.setAlive();
+                ((PLayerShip) this).canShoot = false;
+                GameManager.loseLife();
+
+            } else if (this instanceof Bullet && other instanceof EnemyShip) {
+                GameManager.incScore(50);
+                other.setAlive();
+                this.setAlive();
+                GameManager.spawnExplosion(other.position);
+
+            } else if (this instanceof EnemyShip && other instanceof Bullet) {
+                GameManager.incScore(200);
+                this.setAlive();
+                other.setAlive();
+                GameManager.spawnExplosion(this.position);
+            }
             // add collision rules such as scores and other stuff i might need
         }
         // add what happens when asteroid collide

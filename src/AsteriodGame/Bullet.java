@@ -15,10 +15,13 @@ public class Bullet extends GameObject {
     private boolean isAlive = true;
     public static final int BULLET_LIFE = 2;
 
+    public GameObject whoIsFiring;
+
 
     // start position will the position of the ship's origin
-    public Bullet(double x, double y, double vx, double vy) {
+    public Bullet(GameObject whoIsFiring, double x, double y, double vx, double vy) {
         super(new Vector2D(x, y), new Vector2D(vx, vy), RADIUS);
+        this.whoIsFiring = whoIsFiring;
         this.BulletLifeTime = BULLET_LIFE;
 
     }
