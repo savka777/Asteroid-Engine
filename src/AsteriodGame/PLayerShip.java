@@ -5,14 +5,16 @@ import Utilities.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import static AsteriodGame.Constants.*;
+import static AsteriodGame.Settings.*;
 
 public class PLayerShip extends GameObject {
+
+    // Constants can be updated in Settings.java
     public static final int RADIUS = PLAYER_RADIUS;
-    public static final double STEER_RATE = 4.5 * Math.PI;
-    public static final double MAG_ACCELERATION = 400;
-    public static final double DRAG = 0.005;
-    public static final Color COLOR = Color.WHITE;
+    public static final double STEER_RATE = PLAYER_STEER_RATE;
+    public static final double MAG_ACCELERATION = PLAYER_MAG_ACCELERATION;
+    public static final double DRAG = PLAYER_DRAG;
+    public static final Color COLOR = PLAYER_COLOR;
     public Vector2D direction;
     public Controller controller;
     private boolean isThrusting = false;

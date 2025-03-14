@@ -9,7 +9,6 @@ public class AIController implements Controller {
     private EnemyShip enemyShip;
 
 
-    // Example: store a reference to the player ship so we can aim at it
     public AIController(PLayerShip player,EnemyShip enemyShip) {
         this.playerRef = player;
         this.enemyShip = enemyShip;
@@ -18,16 +17,12 @@ public class AIController implements Controller {
 
     @Override
     public Action action() {
-        // Each frame, figure out how to adjust turn/thrust to move toward the player
-        // Then decide if we want to shoot.
 
-        // Reset each frame
         action.turn = 0;
         action.thrust = 0;
         action.shoot = false;
 
         if (playerRef == null || !playerRef.isAlive()) {
-            // If there’s no valid player, do nothing
             return action;
         }
 

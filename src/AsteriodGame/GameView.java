@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
 
-import static AsteriodGame.Constants.FRAME_HEIGHT;
-import static AsteriodGame.Constants.FRAME_WIDTH;
-
 public class GameView extends JComponent {
     private static final Color BG_COLOR = Color.BLACK;
     private GameManager game; // Instance to our Game Manager
@@ -41,26 +38,29 @@ public class GameView extends JComponent {
             g.setFont(retroFont);
             FontMetrics fm = g.getFontMetrics();
 
+            int screenWidth = getWidth();
+            int screenHeight = getHeight();
+
             // Draw Score in the top center
             String scoreStr = "Score: " + GameManager.getScore();
             int scoreWidth = fm.stringWidth(scoreStr);
             g.setColor(Color.WHITE);
-            g.drawString(scoreStr, (Constants.FRAME_WIDTH - scoreWidth) / 2, 40);
+            g.drawString(scoreStr, 0, 40);
 
             // Bottom left: Level text
             String levelStr = "Level: " + GameManager.getLevel();
-            g.drawString(levelStr, 20, Constants.FRAME_HEIGHT - 20);
+            g.drawString(levelStr, 20, screenHeight- 20);
 
             // Bottom right: Lives text
             String livesStr = "Lives: " + GameManager.getLives();
             int livesWidth = fm.stringWidth(livesStr);
-            g.drawString(livesStr, Constants.FRAME_WIDTH - livesWidth - 20, Constants.FRAME_HEIGHT - 20);
+            g.drawString(livesStr, screenWidth - livesWidth - 20, screenHeight - 20);
 
             // Bottom center: Progress Bar
             int barWidth = 200;
             int barHeight = 20;
-            int barX = (Constants.FRAME_WIDTH - barWidth) / 2;
-            int barY = Constants.FRAME_HEIGHT - 40;
+            int barX = (screenWidth - barWidth) / 2;
+            int barY = screenHeight - 40;
 
             int totalAsteroids = GameManager.getTotalAsteroidsThisLevel();
             int remainingAsteroids = GameManager.getRemainingAsteroids();
@@ -74,17 +74,11 @@ public class GameView extends JComponent {
 
             g.setColor(Color.WHITE);
             g.drawRect(barX, barY, barWidth, barHeight);
-//
-//            if (GameManager.getLives() == 0) {
-//                String goStr = "GAME OVER Score: " + GameManager.getScore();
-//                int goWidth = fm.stringWidth(goStr);
-//                g.drawString(goStr, (Constants.FRAME_WIDTH - goWidth) / 2, Constants.FRAME_HEIGHT / 2);
-//            }
         }
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return Constants.FRAME_SIZE;
+        return Settings.FRAME_SIZE;
     }
 }

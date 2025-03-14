@@ -17,7 +17,7 @@ public class GameOverMenu extends JComponent {
         this.finalScore = finalScore;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Load or default a retro font
+
         try {
             InputStream is = getClass().getResourceAsStream("/AsteriodGame/Static/PressStart2P-Regular.ttf");
             if (is == null) {
@@ -70,17 +70,6 @@ public class GameOverMenu extends JComponent {
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
         button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-//        button.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseEntered(MouseEvent evt) {
-////                button.setContentAreaFilled(true);
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent evt) {
-////                button.setContentAreaFilled(false);
-//            }
-//        });
     }
 
     private void onPlayAgain() {
@@ -91,12 +80,16 @@ public class GameOverMenu extends JComponent {
             topFrame.dispose();
         }
 
+        GraphicsDevice gd = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice();
+
         JFrame frame = new JFrame("Asteroids Menu");
+        frame.setUndecorated(true);           // remove window borders
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.add(new GameMenu());
-        frame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        gd.setFullScreenWindow(frame);
     }
 
 

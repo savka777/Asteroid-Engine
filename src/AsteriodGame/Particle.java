@@ -2,7 +2,7 @@ package AsteriodGame;
 
 import java.awt.*;
 import Utilities.Vector2D;
-import static AsteriodGame.Constants.*;
+import static AsteriodGame.Settings.*;
 
 public class Particle extends GameObject {
     private double lifetime;

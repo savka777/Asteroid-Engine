@@ -7,11 +7,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static AsteriodGame.Constants.*;
+import static AsteriodGame.Settings.*;
 // Game Manager
 public class GameManager {
     public static GameManager instance;
-    public static final int N_INIT_ASTEROIDS = 10;
     public List<GameObject> gameObjects;
     public Controller controller;
     public PLayerShip ship;
@@ -226,7 +225,7 @@ public class GameManager {
             JFrame frame = new JFrame("Asteroids Menu");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(new GameMenu());
-            frame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+            frame.setSize(Settings.FRAME_WIDTH, Settings.FRAME_HEIGHT);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });

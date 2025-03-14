@@ -5,15 +5,17 @@ import Utilities.Vector2D;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import static AsteriodGame.Constants.*;
+import static AsteriodGame.Settings.*;
 
 public class EnemyShip extends GameObject {
+
+    // Constants can be updated in Constants.java
     public static final int RADIUS = ENEMY_RADIUS;
-    public static final double STEER_RATE = 2.5 * Math.PI;
-    public static final double MAG_ACCELERATION = 100;
-    public static final double DRAG = 0.0005;
-    public static final double SHOOT_DELAY = 5.5; // add to constants later to lazy now
-    public static final Color COLOR = Color.RED;
+    public static final double STEER_RATE = ENEMY_STEER_RATE;
+    public static final double MAG_ACCELERATION = ENEMY_MAG_ACCELERATION;
+    public static final double DRAG = ENEMY_DRAG;
+    public static final double SHOOT_DELAY = ENEMY_SHOOT_DELAY;
+    public static final Color COLOR = ENEMY_COLOR;
     public Vector2D direction;
     public Controller controller;
     public Bullet bullet = null;

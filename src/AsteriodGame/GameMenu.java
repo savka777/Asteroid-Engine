@@ -9,7 +9,6 @@ import java.awt.event.*;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import AsteriodGame.SoundManager;
 
 public class GameMenu extends JComponent {
 
@@ -75,7 +74,7 @@ public class GameMenu extends JComponent {
     private void updateBackgroundAsteroids() {
         for (Asteriod a : backgroundAsteroids) {
             a.update();
-            a.position.wrap(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+            a.position.wrap(Settings.FRAME_WIDTH, Settings.FRAME_HEIGHT);
         }
     }
 
@@ -87,17 +86,6 @@ public class GameMenu extends JComponent {
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
         button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-//        button.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseEntered(MouseEvent evt) {
-//                button.setContentAreaFilled(true);
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent evt) {
-//                button.setContentAreaFilled(false);
-//            }
-//        });
     }
 
     @Override
@@ -141,7 +129,7 @@ public class GameMenu extends JComponent {
                                 JFrame gameOverFrame = new JFrame("Game Over");
                                 gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                 gameOverFrame.add(new GameOverMenu(finalScore));
-                                gameOverFrame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+                                gameOverFrame.setSize(Settings.FRAME_WIDTH, Settings.FRAME_HEIGHT);
                                 gameOverFrame.setLocationRelativeTo(null);
                                 gameOverFrame.setVisible(true);
                             });
@@ -151,7 +139,7 @@ public class GameMenu extends JComponent {
 
                         // Continue with normal cycle
                         view.repaint();
-                        Thread.sleep(Constants.DELAY);
+                        Thread.sleep(Settings.DELAY);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -168,11 +156,16 @@ public class GameMenu extends JComponent {
     }
 
     public static void main(String[] args) {
+        GraphicsDevice gd = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice();
+
         JFrame frame = new JFrame("Asteroids Menu");
+        frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.add(new GameMenu());
-        frame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        gd.setFullScreenWindow(frame);
     }
+
 }

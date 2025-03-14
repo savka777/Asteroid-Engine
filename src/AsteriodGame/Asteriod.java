@@ -1,16 +1,14 @@
 package AsteriodGame;
 
-import static AsteriodGame.Constants.*;
+import static AsteriodGame.Settings.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 import Utilities.Vector2D;
 
-// Game Object
 public class Asteriod extends GameObject {
-    // coordinate vector
-    private static final int BASE_RADIUS = 10;
+    private static final int BASE_RADIUS = 20;
     private static final double MAX_SPEED = 200;
     private Polygon shape;
     private int radius;
@@ -39,15 +37,13 @@ public class Asteriod extends GameObject {
     }
 
     public static Asteriod MakeRandomAsteroid() {
-        // Generate random angle in radians (0 to 2π)
         double angle = Math.random() * 2 * Math.PI;
 
-        // Generate random speed (magnitude of velocity)
         double speed = Math.random() * MAX_SPEED;
 
-        // Convert polar coordinates (angle & speed) to cartesian (x & y velocities)
-        double vx = speed * Math.cos(angle); // horizontal component
-        double vy = speed * Math.sin(angle); // vertical component
+
+        double vx = speed * Math.cos(angle);
+        double vy = speed * Math.sin(angle);
 
         return new Asteriod(
                 Math.random() * FRAME_WIDTH,
@@ -72,10 +68,9 @@ public class Asteriod extends GameObject {
     public void update() {
 
         position.addScaled(velocity, DT);
-        position.wrap(FRAME_WIDTH, FRAME_HEIGHT); // Wraps around
+        position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
     }
 
-    // Render a game object
     @Override
     public void draw(Graphics2D g) {
         AffineTransform oldTransform = g.getTransform();

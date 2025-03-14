@@ -1,6 +1,6 @@
 package AsteriodGame;
 
-import static AsteriodGame.Constants.*;
+import static AsteriodGame.Settings.*;
 
 
 import java.awt.Color;
@@ -11,10 +11,9 @@ import Utilities.Vector2D;
 public class Bullet extends GameObject {
 
     private double BulletLifeTime;
-    public static final double RADIUS = 2;
+    public static final double RADIUS = BULLET_RADIUS;
     private boolean isAlive = true;
-    public static final int BULLET_LIFE = 2;
-
+    public static final int BULLET_LIFE = BULLET_SPEED;
     public GameObject whoIsFiring;
 
 
