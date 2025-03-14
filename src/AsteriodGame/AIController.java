@@ -49,7 +49,7 @@ public class AIController implements Controller {
 
         // 3) Thrust if we want to close in on the player
         double distance = toPlayer.mag();
-        if (distance > 100) {
+        if (distance > 300) {
           // if we’re far from the player, thrust
             action.thrust = 1;
         } else if (distance < 80) {
@@ -60,7 +60,7 @@ public class AIController implements Controller {
         // 4) Decide when to shoot
         //    Here we just shoot if we’re roughly pointed at the player
         //    (the smaller the angleDiff, the more “on target” we are).
-        if (Math.abs(angleDiff) < 0.15 && distance < 300) {
+        if (Math.abs(angleDiff) < 0.15 && distance < 500) {
             action.shoot = true;
         }
 

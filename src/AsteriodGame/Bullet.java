@@ -13,7 +13,7 @@ public class Bullet extends GameObject {
     private double BulletLifeTime;
     public static final double RADIUS = BULLET_RADIUS;
     private boolean isAlive = true;
-    public static final int BULLET_LIFE = BULLET_SPEED;
+    public static final int LIFE = BULLET_LIFE;
     public GameObject whoIsFiring;
 
 
@@ -21,7 +21,7 @@ public class Bullet extends GameObject {
     public Bullet(GameObject whoIsFiring, double x, double y, double vx, double vy) {
         super(new Vector2D(x, y), new Vector2D(vx, vy), RADIUS);
         this.whoIsFiring = whoIsFiring;
-        this.BulletLifeTime = BULLET_LIFE;
+        this.BulletLifeTime = LIFE;
 
     }
 

@@ -1,9 +1,6 @@
 package AsteriodGame;
 
 import javax.swing.*;
-
-import Utilities.JEasyFrame;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.InputStream;
@@ -18,49 +15,69 @@ public class GameMenu extends JComponent {
     private List<Asteriod> backgroundAsteroids;
     private Timer backgroundTimer;
 
-
+    private HighScoreManager highScoreManager;
 
     public GameMenu() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        // Load the retro font.
         try {
             InputStream is = getClass().getResourceAsStream("/AsteriodGame/Static/PressStart2P-Regular.ttf");
             if (is == null) {
-                retroFont = new Font("Arial", Font.BOLD, 36);
+                retroFont = new Font("Arial", Font.BOLD, 54);
             } else {
-                retroFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(36f);
+                retroFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(54f);
             }
         } catch (Exception e) {
-            retroFont = new Font("Arial", Font.BOLD, 36);
+            retroFont = new Font("Arial", Font.BOLD, 54);
         }
 
-        JLabel titleLabel = new JLabel("ASTEROIDS");
+        // Title label.
+        JLabel titleLabel = new JLabel("SPACE SURVIVOR");
         titleLabel.setFont(retroFont);
-        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setForeground(Color.RED);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        highScoreManager = new HighScoreManager();
+        JPanel highScoresPanel = new JPanel();
+        highScoresPanel.setLayout(new BoxLayout(highScoresPanel, BoxLayout.Y_AXIS));
+        highScoresPanel.setOpaque(false);
+        for (HighScore hs : highScoreManager.getHighScores()) {
+            JLabel hsLabel = new JLabel(hs.toString());
+            hsLabel.setFont(retroFont.deriveFont(Font.PLAIN, 32f));
+            hsLabel.setForeground(Color.YELLOW);
+            hsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            highScoresPanel.add(hsLabel);
+        }
+
+        // Start button.
         startButton = new JButton("Start");
         styleButton(startButton);
         startButton.addActionListener(e -> startGame());
 
+        // Exit button.
         exitButton = new JButton("Exit");
         styleButton(exitButton);
         exitButton.addActionListener(e -> System.exit(0));
 
+        // Build the layout.
         add(Box.createVerticalGlue());
         add(titleLabel);
+        add(Box.createRigidArea(new Dimension(0, 20)));
+        add(highScoresPanel);
         add(Box.createRigidArea(new Dimension(0, 50)));
         add(startButton);
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(exitButton);
         add(Box.createVerticalGlue());
 
-        // Init background asteroids
+        // Initialize background asteroids.
         backgroundAsteroids = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             backgroundAsteroids.add(Asteriod.MakeRandomAsteroid());
         }
 
+        // Start background animation.
         backgroundTimer = new Timer(33, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,13 +96,13 @@ public class GameMenu extends JComponent {
     }
 
     private void styleButton(JButton button) {
-        button.setFont(retroFont.deriveFont(Font.PLAIN, 24f));
+        button.setFont(retroFont.deriveFont(Font.PLAIN, 32f));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setForeground(Color.WHITE);
+        button.setForeground(Color.YELLOW);
         button.setBackground(Color.BLACK);
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-        button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        button.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
     }
 
     @Override
@@ -99,60 +116,20 @@ public class GameMenu extends JComponent {
             a.draw(g2d);
         }
     }
-
     private void startGame() {
         SoundManager.startMainMusic();
         backgroundTimer.stop();
-        try {
-            GameManager game = new GameManager();
-            GameView view = new GameView(game);
-            new JEasyFrame(view, "GAME").addKeyListener((KeyListener) game.controller);
+        PlayerName nameEntry = new PlayerName(highScoreManager);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.getContentPane().removeAll();
+        frame.add(nameEntry);
+        frame.revalidate();
+        frame.repaint();
+    }
 
-            new Thread(() -> {
-                try {
-                    while (true) {
-                        if (!GameManager.isGameOver) {
-
-                            game.update();
-                        } else {
-
-                            int finalScore = GameManager.getScore();
-
-                            SwingUtilities.invokeLater(() -> {
-
-                                JFrame oldFrame = (JFrame) SwingUtilities.getWindowAncestor(view);
-                                if (oldFrame != null) {
-                                    oldFrame.dispose();
-                                }
-
-                                // Show the new GameOverMenu
-                                JFrame gameOverFrame = new JFrame("Game Over");
-                                gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                gameOverFrame.add(new GameOverMenu(finalScore));
-                                gameOverFrame.setSize(Settings.FRAME_WIDTH, Settings.FRAME_HEIGHT);
-                                gameOverFrame.setLocationRelativeTo(null);
-                                gameOverFrame.setVisible(true);
-                            });
-
-                            break;
-                        }
-
-                        // Continue with normal cycle
-                        view.repaint();
-                        Thread.sleep(Settings.DELAY);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
-
-
-
-            SwingUtilities.getWindowAncestor(this).dispose();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public Dimension getPreferredSize() {
+        return Settings.FRAME_SIZE;
     }
 
     public static void main(String[] args) {
@@ -167,5 +144,4 @@ public class GameMenu extends JComponent {
         frame.add(new GameMenu());
         gd.setFullScreenWindow(frame);
     }
-
 }

@@ -99,7 +99,7 @@ public abstract class GameObject {
                 GameManager.loseLife();
 
             } else if (this instanceof Bullet && other instanceof EnemyShip) {
-                GameManager.incScore(50);
+                GameManager.incScore(500);
                 other.setAlive();
                 this.setAlive();
                 GameManager.spawnExplosion(other.position);

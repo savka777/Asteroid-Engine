@@ -17,11 +17,12 @@ public class Settings {
 
     ////// ENEMY SETTINGS
     public static final int ENEMY_RADIUS = 12;
-    public static final double ENEMY_STEER_RATE = 2.5 * Math.PI;
-    public static final double ENEMY_MAG_ACCELERATION = 100;
+    public static final double ENEMY_STEER_RATE = 3.5 * Math.PI;
+    public static final double ENEMY_MAG_ACCELERATION = 200;
     public static final double ENEMY_DRAG = 0.0005;
-    public static final double ENEMY_SHOOT_DELAY = 5.5;
+    public static final double ENEMY_SHOOT_DELAY = 2.5;
     public static final Color ENEMY_COLOR = Color.RED;
+    public static int N_ENEMY_SHIPS = 1;
 
 
     ////// DISPLAY SETTINGS
@@ -46,6 +47,7 @@ public class Settings {
 
     ///// LEVEL SETTINGS
     public static final int LEVEL_START = 1;
+    public static final int SCORE_FOR_LEVEL_COMPLETION = 200;
 
 
 }

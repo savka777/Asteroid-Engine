@@ -8,7 +8,7 @@ public class Particle extends GameObject {
     private double lifetime;
 
     public Particle(double x, double y, double vx, double vy, double lifetime, Color color) {
-        super(new Vector2D(x, y), new Vector2D(vx, vy), 2);
+        super(new Vector2D(x, y), new Vector2D(vx, vy), 12);
         this.lifetime = lifetime;
     }
 
@@ -34,6 +34,6 @@ public class Particle extends GameObject {
         float alpha = (float) Math.max(lifetime / 1.0, 0);
         Color c = new Color(255, 255, 255, (int)(alpha * 255));
         g.setColor(c);
-        g.fillOval((int) position.x, (int) position.y, 3, 3);
+        g.fillOval((int) position.x, (int) position.y, 4, 4);
     }
 }
