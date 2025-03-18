@@ -8,8 +8,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
+/**
+ * Settings menu class represents the settings menu for the game.
+ * Provides options to adjust sensitivity, toggle game audio, resume the game, or quit.
+ */
 public class SettingMenu extends JPanel {
-
     private GameView gameView;
     private JButton quitButton;
     private JButton resumeButton;
@@ -23,11 +26,13 @@ public class SettingMenu extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(0, 0, 0, 200));
 
+        // settings title
         JLabel settingsLabel = new JLabel("SETTINGS");
         settingsLabel.setFont(gameView.getRetroFont().deriveFont(Font.BOLD, 54f));
         settingsLabel.setForeground(Color.RED);
         settingsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // sensitivity slider
         JLabel sensitivityLabel = new JLabel("Sensitivity");
         sensitivityLabel.setFont(gameView.getRetroFont().deriveFont(Font.BOLD, 24f));
         sensitivityLabel.setForeground(Color.YELLOW);
@@ -50,6 +55,7 @@ public class SettingMenu extends JPanel {
             }
         });
 
+        // toggle audio
         gamePlayAudioCheckBox = new JCheckBox("Audio");
         styleCheckBox(gamePlayAudioCheckBox);
         gamePlayAudioCheckBox.setSelected(true);
@@ -61,6 +67,7 @@ public class SettingMenu extends JPanel {
             }
         });
 
+        // buttons
         resumeButton = new JButton("Resume");
         styleButton(resumeButton);
         resumeButton.addActionListener(e -> gameView.togglePause());
@@ -71,15 +78,15 @@ public class SettingMenu extends JPanel {
 
         add(Box.createVerticalGlue());
         add(settingsLabel);
-        add(Box.createRigidArea(new Dimension(0, 20))); // Reduced spacing
+        add(Box.createRigidArea(new Dimension(0, 20)));
         add(sensitivityLabel);
-        add(Box.createRigidArea(new Dimension(0, 20)));  // Reduced spacing
+        add(Box.createRigidArea(new Dimension(0, 20)));
         add(sensitivitySlider);
-        add(Box.createRigidArea(new Dimension(0, 20))); // Reduced spacing
+        add(Box.createRigidArea(new Dimension(0, 20)));
         add(gamePlayAudioCheckBox);
-        add(Box.createRigidArea(new Dimension(0, 20))); // Reduced spacing
+        add(Box.createRigidArea(new Dimension(0, 20)));
         add(resumeButton);
-        add(Box.createRigidArea(new Dimension(0, 20))); // Reduced spacing
+        add(Box.createRigidArea(new Dimension(0, 20)));
         add(quitButton);
         add(Box.createVerticalGlue());
 
@@ -92,6 +99,11 @@ public class SettingMenu extends JPanel {
         ));
     }
 
+    /**
+     * Style a given button.
+     *
+     * @param button to be styled.
+     */
     private void styleButton(JButton button) {
         button.setFont(gameView.getRetroFont().deriveFont(Font.BOLD, 24f));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -105,6 +117,11 @@ public class SettingMenu extends JPanel {
         ));
     }
 
+    /**
+     * Style a given checkbox.
+     *
+     * @param checkBox to be styled.
+     */
     private void styleCheckBox(JCheckBox checkBox) {
         checkBox.setOpaque(false);
         checkBox.setBackground(new Color(0, 0, 0, 0));
@@ -122,37 +139,49 @@ public class SettingMenu extends JPanel {
         checkBox.setSelectedIcon(new CheckBoxIcon(iconSize, Color.YELLOW, Color.YELLOW));
     }
 
+    /**
+     * Inner class Arcade check box icon, creates a custom icon for the game
+     */
     private static class ArcadeCheckBoxIcon implements Icon {
         private int size;
         private Color borderColor;
+
         public ArcadeCheckBoxIcon(int size, Color borderColor) {
             this.size = size;
             this.borderColor = borderColor;
         }
+
         @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.setColor(borderColor);
             g.drawRect(x, y, size - 1, size - 1);
         }
+
         @Override
         public int getIconWidth() {
             return size;
         }
+
         @Override
         public int getIconHeight() {
             return size;
         }
     }
 
+    /**
+     * Inner class check box icon, creates a custom check box icon for the game
+     */
     private static class CheckBoxIcon implements Icon {
         private int size;
         private Color borderColor;
         private Color fillColor;
+
         public CheckBoxIcon(int size, Color borderColor, Color fillColor) {
             this.size = size;
             this.borderColor = borderColor;
             this.fillColor = fillColor;
         }
+
         @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.setColor(borderColor);
@@ -160,10 +189,12 @@ public class SettingMenu extends JPanel {
             g.setColor(fillColor);
             g.fillRect(x + 3, y + 3, size - 6, size - 6);
         }
+
         @Override
         public int getIconWidth() {
             return size;
         }
+
         @Override
         public int getIconHeight() {
             return size;

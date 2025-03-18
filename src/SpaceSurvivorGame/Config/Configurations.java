@@ -2,6 +2,11 @@ package SpaceSurvivorGame.Config;
 
 import java.awt.*;
 
+/**
+ * Configurations class is used to create uniformed environment variables that can be changed in one location,
+ * instead of having to dig through classes and adjust game play. Also, useful for the settings menu, having all the
+ * variables in one place that can be easily adjusted.
+ */
 public class Configurations {
 
     ////// PLAYER SETTINGS
@@ -12,8 +17,7 @@ public class Configurations {
     public static final double PLAYER_DRAG = 0.005;
     public static final Color PLAYER_COLOR = Color.white;
     public static final int PLAYER_SCORE = 0;
-    public static final int N_PLAYER_LIFES = 1;
-
+    public static final int N_PLAYER_LIFES = 3;
 
 
     ////// ENEMY SETTINGS
@@ -28,14 +32,14 @@ public class Configurations {
 
     ////// DISPLAY SETTINGS
     public static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    public static final int FRAME_HEIGHT = (int)SCREEN_SIZE.getHeight();
+    public static final int FRAME_HEIGHT = (int) SCREEN_SIZE.getHeight();
     public static final int FRAME_WIDTH = (int) SCREEN_SIZE.getWidth();
     public static final Dimension FRAME_SIZE = new Dimension(Configurations.FRAME_WIDTH, Configurations.FRAME_HEIGHT);
 
 
     ///// RENDERING SETTINGS
-    public static final int DELAY = 10; // in milliseconds
-    public static final double DT = DELAY / 1000.0; // in seconds
+    public static final int DELAY = 10;
+    public static final double DT = DELAY / 1000.0;
     public static final double DRAWING_SCALE = 1.0;
 
     ///// BULLET SETTINGS

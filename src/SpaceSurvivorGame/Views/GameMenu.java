@@ -1,32 +1,37 @@
 package SpaceSurvivorGame.Views;
 
+import SpaceSurvivorGame.Config.Configurations;
 import SpaceSurvivorGame.GameObjects.Asteroid;
+import SpaceSurvivorGame.HighScore.HighScore;
 import SpaceSurvivorGame.Managers.HighScoreManager;
 import SpaceSurvivorGame.Managers.SoundManager;
-import SpaceSurvivorGame.HighScore.HighScore;
-import SpaceSurvivorGame.Config.Configurations;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Game Menu class represents the intro game menu that user sees.
+ * Display's title, high scores, start, exit buttons and animated background.
+ */
 public class GameMenu extends JComponent {
-
     private JButton startButton;
     private JButton exitButton;
     private Font retroFont;
     private List<Asteroid> backgroundAsteroids;
     private Timer backgroundTimer;
-
     private HighScoreManager highScoreManager;
 
+    /**
+     * Constructs the game menu, initializing UI and background animation.
+     */
     public GameMenu() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Load the retro font.
         try {
             InputStream is = getClass().getResourceAsStream("/SpaceSurvivorGame/Static/PressStart2P-Regular.ttf");
             if (is == null) {
@@ -38,12 +43,13 @@ public class GameMenu extends JComponent {
             retroFont = new Font("Arial", Font.BOLD, 54);
         }
 
-        // Title label.
+        // title
         JLabel titleLabel = new JLabel("SPACE SURVIVOR");
         titleLabel.setFont(retroFont);
         titleLabel.setForeground(Color.RED);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // high score
         highScoreManager = new HighScoreManager();
         JPanel highScoresPanel = new JPanel();
         highScoresPanel.setLayout(new BoxLayout(highScoresPanel, BoxLayout.Y_AXIS));
@@ -56,17 +62,14 @@ public class GameMenu extends JComponent {
             highScoresPanel.add(hsLabel);
         }
 
-        // Start button.
+        // buttons
         startButton = new JButton("PLAY GAME");
         styleButton(startButton);
         startButton.addActionListener(e -> startGame());
-
-        // Exit button.
         exitButton = new JButton("Exit");
         styleButton(exitButton);
         exitButton.addActionListener(e -> System.exit(0));
 
-        // Build the layout.
         add(Box.createVerticalGlue());
         add(titleLabel);
         add(Box.createRigidArea(new Dimension(0, 20)));
@@ -77,9 +80,9 @@ public class GameMenu extends JComponent {
         add(exitButton);
         add(Box.createVerticalGlue());
 
-        // Initialize background asteroids.
+        // background animations
         backgroundAsteroids = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 25; i++) {
             backgroundAsteroids.add(Asteroid.MakeRandomAsteroid());
         }
         backgroundTimer = new Timer(33, new ActionListener() {
@@ -92,6 +95,9 @@ public class GameMenu extends JComponent {
         backgroundTimer.start();
     }
 
+    /**
+     * Updates the background asteroids.
+     */
     private void updateBackgroundAsteroids() {
         for (Asteroid a : backgroundAsteroids) {
             a.update();
@@ -99,6 +105,11 @@ public class GameMenu extends JComponent {
         }
     }
 
+    /**
+     * Styles a button with custom font and color settings.
+     *
+     * @param button The button to style.
+     */
     private void styleButton(JButton button) {
         button.setFont(retroFont.deriveFont(Font.PLAIN, 32f));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);

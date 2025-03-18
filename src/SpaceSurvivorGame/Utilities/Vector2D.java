@@ -1,6 +1,5 @@
 package SpaceSurvivorGame.Utilities;
 
-// mutable 2D vectors
 public final class Vector2D {
     public double x, y;
 

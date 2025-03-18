@@ -1,5 +1,6 @@
 package SpaceSurvivorGame.Managers;
 
+import SpaceSurvivorGame.Config.Configurations;
 import SpaceSurvivorGame.Controllers.AIController;
 import SpaceSurvivorGame.Controllers.Controller;
 import SpaceSurvivorGame.Enemy.EnemyShip;
@@ -7,7 +8,6 @@ import SpaceSurvivorGame.GameObjects.Asteroid;
 import SpaceSurvivorGame.GameObjects.GameObject;
 import SpaceSurvivorGame.GameObjects.Particle;
 import SpaceSurvivorGame.Player.PLayerShip;
-import SpaceSurvivorGame.Config.Configurations;
 import SpaceSurvivorGame.Utilities.Vector2D;
 import SpaceSurvivorGame.Views.GameMenu;
 
@@ -18,6 +18,9 @@ import java.util.List;
 
 import static SpaceSurvivorGame.Config.Configurations.*;
 
+/**
+ * Game Manager class manages the overall game state, including player lives, score, levels, and object interactions.
+ */
 public class GameManager {
     public static GameManager instance;
     public List<GameObject> gameObjects;
@@ -29,9 +32,12 @@ public class GameManager {
     public static boolean isGameOver = false;
     public int totalAsteroidsInLevel;
     public static boolean isPaused = false;
-
     public static String playerName = "XXX";
+    public static String difficultyMode = "Easy";
 
+    /**
+     * Constructs a new GameManager instance, initializes the game state, and spawns initial objects.
+     */
     public GameManager() {
         instance = this;
         gameObjects = new ArrayList<>();
@@ -50,10 +56,18 @@ public class GameManager {
         totalAsteroidsInLevel = N_INIT_ASTEROIDS;
     }
 
+    /**
+     * Adds a new game object to the game.
+     *
+     * @param obj The object to add.
+     */
     public static void addGameObject(GameObject obj) {
         instance.gameObjects.add(obj);
     }
 
+    /**
+     * Start a new level.
+     */
     public void newLevel() {
         level++;
         score += SCORE_FOR_LEVEL_COMPLETION;
@@ -81,6 +95,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * Restart a level.
+     */
     public void newLife() {
         try {
             Thread.sleep(1000);
@@ -106,9 +123,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Updates the game state, including object updates and collision handling.
+     */
     public void update() {
-
-        if(isPaused)return;
+        if (isPaused) return;
 
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject o1 = gameObjects.get(i);
@@ -156,12 +175,19 @@ public class GameManager {
 
         if (noAsteroids) {
             newLevel();
-            addLife();
+            if (difficultyMode.equals("Easy")) {
+                addLife();
+            }
         } else if (noShip) {
             newLife();
         }
     }
 
+    /**
+     * Increases the players score.
+     *
+     * @param inc Points to be added to the score.
+     */
     public static void incScore(int inc) {
         int oldScore = score;
         score += inc;
@@ -172,12 +198,18 @@ public class GameManager {
         }
     }
 
+    /**
+     * Reduces player life and triggers game over if lives reach zero.
+     */
     public static void loseLife() {
         lives--;
         if (lives == 0)
             isGameOver = true;
     }
 
+    /**
+     * Add player life if the player is not dead.
+     */
     public static void addLife() {
         if (lives != 0) {
             lives++;
@@ -196,6 +228,9 @@ public class GameManager {
         return lives;
     }
 
+    /**
+     * Spawn explosion particles.
+     */
     public static void spawnExplosion(Vector2D position) {
         for (int i = 0; i < 20; i++) {
             double angle = Math.random() * 2 * Math.PI;
@@ -207,6 +242,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Get the remaining asteroids in game.
+     *
+     * @return remaining asteroids.
+     */
     public static int getRemainingAsteroids() {
         int count = 0;
         for (GameObject obj : instance.gameObjects) {
@@ -217,6 +257,9 @@ public class GameManager {
         return count;
     }
 
+    /**
+     * Resets the game state to its initial state.
+     */
     public static void resetGameState() {
         isGameOver = false;
         lives = N_PLAYER_LIFES;

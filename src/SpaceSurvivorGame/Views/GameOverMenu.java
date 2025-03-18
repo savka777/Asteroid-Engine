@@ -8,13 +8,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
 
+/**
+ * Game Over class represents the game over screen for Game.
+ * Displays the final score, checks for high scores, and provides options to play again or exit.
+ */
 public class GameOverMenu extends JComponent {
-
     private JButton playAgainButton;
     private JButton quitButton;
     private static Font retroFont;
     private int finalScore;
 
+    /**
+     * Constructs the Game Over menu and initializes UI components.
+     *
+     * @param finalScore The final score achieved by the player.
+     */
     public GameOverMenu(int finalScore) {
         this.finalScore = finalScore;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -31,18 +39,21 @@ public class GameOverMenu extends JComponent {
             retroFont = new Font("Arial", Font.BOLD, 36);
         }
 
+        // game over title
         JLabel titleLabel = new JLabel("GAME OVER");
         titleLabel.setFont(retroFont);
         titleLabel.setForeground(Color.RED);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+        // final score
         JLabel scoreLabel = new JLabel("Score: " + finalScore);
         scoreLabel.setFont(retroFont.deriveFont(Font.PLAIN, 24f));
         scoreLabel.setForeground(Color.YELLOW);
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+        // high scores
         HighScoreManager scoreManager = new HighScoreManager();
         if (scoreManager.isNewHighScore(finalScore)) {
             scoreManager.addHighScore(new HighScore(GameManager.playerName, finalScore));
@@ -59,7 +70,7 @@ public class GameOverMenu extends JComponent {
             highScoresPanel.add(hsLabel);
         }
 
-
+        // buttons
         playAgainButton = new JButton("Play Again");
         styleButton(playAgainButton);
         playAgainButton.addActionListener(e -> onPlayAgain());
@@ -81,6 +92,11 @@ public class GameOverMenu extends JComponent {
         add(Box.createVerticalGlue());
     }
 
+    /**
+     * Styles a button.
+     *
+     * @param button The button to style.
+     */
     public static void styleButton(JButton button) {
         button.setFont(retroFont.deriveFont(Font.BOLD, 24f));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -94,6 +110,9 @@ public class GameOverMenu extends JComponent {
         ));
     }
 
+    /**
+     * Handles the Play Again button action, restarts the game.
+     */
     private void onPlayAgain() {
         GameManager.resetGameState();
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -104,7 +123,7 @@ public class GameOverMenu extends JComponent {
                 .getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice();
 
-        JFrame frame = new JFrame("Asteroids Menu");
+        JFrame frame = new JFrame("Game Menu");
         frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);

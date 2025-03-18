@@ -1,21 +1,22 @@
 package SpaceSurvivorGame.Player;
 
 import SpaceSurvivorGame.Controllers.Action;
-import SpaceSurvivorGame.GameObjects.Bullet;
 import SpaceSurvivorGame.Controllers.Controller;
+import SpaceSurvivorGame.GameObjects.Bullet;
 import SpaceSurvivorGame.GameObjects.GameObject;
 import SpaceSurvivorGame.Managers.SoundManager;
-import SpaceSurvivorGame.Utilities.*;
+import SpaceSurvivorGame.Utilities.Vector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 import static SpaceSurvivorGame.Config.Configurations.*;
 
+/**
+ * Player ship class represents the user in the game.
+ */
 public class PLayerShip extends GameObject {
-
     public static final int RADIUS = PLAYER_RADIUS;
-    public static final double STEER_RATE = PLAYER_STEER_RATE;
     public static final double MAG_ACCELERATION = PLAYER_MAG_ACCELERATION;
     public static final double DRAG = PLAYER_DRAG;
     public static final Color COLOR = PLAYER_COLOR;
@@ -26,13 +27,20 @@ public class PLayerShip extends GameObject {
     private boolean isAlive = true;
     public boolean canShoot = true;
 
-
+    /**
+     * Create a Player ship with a controller.
+     *
+     * @param controller controller
+     */
     public PLayerShip(Controller controller) {
         super(new Vector2D(FRAME_WIDTH / 2, FRAME_HEIGHT / 2), new Vector2D(0, 0), RADIUS);
         this.controller = controller;
         this.direction = new Vector2D(0, -1);
     }
 
+    /**
+     * Creates a bullet at the tip of the ship.
+     */
     public void makeBullet() {
         Vector2D shipTipLocal = new Vector2D(0, -RADIUS);
 
@@ -46,26 +54,36 @@ public class PLayerShip extends GameObject {
 
         Vector2D bulletVelocity = new Vector2D(direction).mult(BULLET_SPEED);
 
-        bullet = new Bullet(this,tipWorld[0], tipWorld[1], bulletVelocity.x, bulletVelocity.y);
+        bullet = new Bullet(this, tipWorld[0], tipWorld[1], bulletVelocity.x, bulletVelocity.y);
         System.out.println("Bullet created at: (" + tipWorld[0] + ", " + tipWorld[1] + ")");
         System.out.println("Bullet velocity: (" + bulletVelocity.x + ", " + bulletVelocity.y + ")");
     }
 
+    /**
+     * Checks whether a ship is alive.
+     *
+     * @return true if alive, false otherwise.
+     */
     public boolean isAlive() {
         return isAlive;
     }
 
+    /**
+     * Marks the ship as dead.
+     */
     public void setAlive() {
         SoundManager.playPlayerDeadSound();
         isAlive = false;
     }
 
+    /**
+     * Updates the ships state based on actions, including position, rotation, and bullet shooting.
+     */
     @Override
     public void update() {
-
         Action action = controller.action();
         isThrusting = action.thrust > 0;
-        direction.rotate(action.turn * STEER_RATE * DT);
+        direction.rotate(action.turn * PLAYER_STEER_RATE * DT);
         velocity.addScaled(direction, action.thrust * MAG_ACCELERATION * DT);
         velocity.mult(1 - DRAG * DT);
         super.position.addScaled(velocity, DT);
@@ -76,9 +94,13 @@ public class PLayerShip extends GameObject {
             SoundManager.playShootingSound();
             action.shoot = false;
         }
-
     }
 
+    /**
+     * Draws the ship.
+     *
+     * @param g Graphics2D object used for rendering.
+     */
     @Override
     public void draw(Graphics2D g) {
         int[] XP = new int[3];
@@ -87,11 +109,9 @@ public class PLayerShip extends GameObject {
         XP[0] = 0;
         YP[0] = -RADIUS;
 
-
         XP[1] = -RADIUS;
         YP[1] = RADIUS;
 
-        // Right wing
         XP[2] = RADIUS;
         YP[2] = RADIUS;
 
@@ -114,15 +134,12 @@ public class PLayerShip extends GameObject {
         XPTHRUST[2] = RADIUS / 2;
         YPTHRUST[2] = RADIUS;
 
-
         AffineTransform at = g.getTransform();
         g.translate(super.position.x, super.position.y);
         double rotation = direction.angle() + Math.PI / 2;
         g.rotate(rotation);
         g.scale(DRAWING_SCALE, DRAWING_SCALE);
         g.setColor(COLOR);
-
-
         g.drawPolygon(XP, YP, XP.length);
 
         if (isThrusting) {

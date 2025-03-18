@@ -12,6 +12,9 @@ import java.awt.geom.AffineTransform;
 
 import static SpaceSurvivorGame.Config.Configurations.*;
 
+/**
+ * Enemy ship class represents the enemy in the game.
+ */
 public class EnemyShip extends GameObject {
     public static final int RADIUS = ENEMY_RADIUS;
     public static final double STEER_RATE = ENEMY_STEER_RATE;
@@ -23,19 +26,26 @@ public class EnemyShip extends GameObject {
     public Controller controller;
     public Bullet bullet = null;
     private boolean isAlive = true;
-
     private double lastTimeBulletFired = 0;
 
-
+    /**
+     * Create an EnemyShip at the given coordinates with a controller.
+     *
+     * @param controller controller responsible for AI.
+     * @param startX     start X position of the ship.
+     * @param startY     start Y position of the ship.
+     */
     public EnemyShip(Controller controller, double startX, double startY) {
         super(new Vector2D(startX, startY), new Vector2D(0, 0), RADIUS);
         this.controller = controller;
         this.direction = new Vector2D(0, -1);
     }
 
+    /**
+     * Creates a bullet at the tip of the ship.
+     */
     public void makeBullet() {
         Vector2D shipTipLocal = new Vector2D(0, -RADIUS);
-
         AffineTransform transform = new AffineTransform();
         transform.translate(position.x, position.y);
         transform.rotate(direction.angle() + Math.PI / 2);
@@ -43,24 +53,31 @@ public class EnemyShip extends GameObject {
 
         double[] tipWorld = new double[2];
         transform.transform(shipTipLocal.toArray(), 0, tipWorld, 0, 1);
-
         Vector2D bulletVelocity = new Vector2D(direction).mult(BULLET_SPEED);
 
-
         bullet = new Bullet(this, tipWorld[0], tipWorld[1], bulletVelocity.x, bulletVelocity.y);
-        System.out.println("Bullet created at: (" + tipWorld[0] + ", " + tipWorld[1] + ")");
-        System.out.println("Bullet velocity: (" + bulletVelocity.x + ", " + bulletVelocity.y + ")");
     }
 
+    /**
+     * Checks whether a ship is alive.
+     *
+     * @return true if alive, false otherwise.
+     */
     public boolean isAlive() {
         return isAlive;
     }
 
+    /**
+     * Marks the ship as dead.
+     */
     public void setAlive() {
         SoundManager.playPlayerDeadSound();
         isAlive = false;
     }
 
+    /**
+     * Updates the ships state based on actions, including position, rotation, and bullet shooting.
+     */
     @Override
     public void update() {
 
@@ -83,6 +100,11 @@ public class EnemyShip extends GameObject {
         }
     }
 
+    /**
+     * Draws the ship.
+     *
+     * @param g Graphics2D object used for rendering.
+     */
     @Override
     public void draw(Graphics2D g) {
         int[] XP = new int[3];
@@ -90,7 +112,6 @@ public class EnemyShip extends GameObject {
 
         XP[0] = 0;
         YP[0] = -RADIUS;
-
 
         XP[1] = -RADIUS;
         YP[1] = RADIUS;
@@ -117,14 +138,12 @@ public class EnemyShip extends GameObject {
         XPTHRUST[2] = RADIUS / 2;
         YPTHRUST[2] = RADIUS;
 
-
         AffineTransform at = g.getTransform();
         g.translate(super.position.x, super.position.y);
         double rotation = direction.angle() + Math.PI / 2;
         g.rotate(rotation);
         g.scale(DRAWING_SCALE, DRAWING_SCALE);
         g.setColor(COLOR);
-
 
         g.drawPolygon(XP, YP, XP.length);
         g.setTransform(at);

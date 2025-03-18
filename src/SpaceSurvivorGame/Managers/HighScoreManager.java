@@ -5,11 +5,17 @@ import SpaceSurvivorGame.HighScore.HighScore;
 import java.io.*;
 import java.util.*;
 
+/**
+ * High score manager class to manage high scores in game.
+ */
 public class HighScoreManager {
     private static final String HIGH_SCORE_FILE = "highscores.txt";
     private static final int MAX_SCORES = 3;
     private List<HighScore> highScores;
 
+    /**
+     * Constructs a HighScoreManager and loads scores from a file.
+     */
     public HighScoreManager() {
         highScores = new ArrayList<>();
         loadScores();
@@ -19,11 +25,22 @@ public class HighScoreManager {
         return highScores;
     }
 
+    /**
+     * Checks if a given score is a new high score.
+     *
+     * @param score The score to check.
+     * @return true if the score is as a new high score, false otherwise.
+     */
     public boolean isNewHighScore(int score) {
         if (highScores.size() < MAX_SCORES) return true;
-        return score > highScores.get(highScores.size()-1).score;
+        return score > highScores.get(highScores.size() - 1).score;
     }
 
+    /**
+     * Adds a new high score and updates the stored scores.
+     *
+     * @param highScore The high score to add.
+     */
     public void addHighScore(HighScore highScore) {
         highScores.add(highScore);
         Collections.sort(highScores);
@@ -33,6 +50,9 @@ public class HighScoreManager {
         updateScores();
     }
 
+    /**
+     * Loads high scores from the file or initializes default scores if the file does not exist.
+     */
     private void loadScores() {
         File file = new File(HIGH_SCORE_FILE);
         if (!file.exists()) {
@@ -44,7 +64,7 @@ public class HighScoreManager {
         }
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
                 if (parts.length >= 2) {
                     String name = parts[0];
@@ -61,6 +81,9 @@ public class HighScoreManager {
         }
     }
 
+    /**
+     * Writes the updated high scores to a file.
+     */
     private void updateScores() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(HIGH_SCORE_FILE))) {
             for (HighScore hs : highScores) {

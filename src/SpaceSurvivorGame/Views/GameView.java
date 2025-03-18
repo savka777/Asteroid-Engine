@@ -9,8 +9,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.InputStream;
 
+/**
+ * Game view class represents the main game view where all game objects are rendered.
+ */
 public class GameView extends JComponent {
-
     private static final Color BG_COLOR = Color.BLACK;
     private GameManager game;
     private Font retroFont;
@@ -18,6 +20,11 @@ public class GameView extends JComponent {
     private boolean paused = false;
     private SettingMenu settingMenu;
 
+    /**
+     * Constructs the GameView with a reference to the game manager.
+     *
+     * @param game The game manager controlling the game logic.
+     */
     public GameView(GameManager game) {
         this.game = game;
         setLayout(new BorderLayout());
@@ -29,6 +36,7 @@ public class GameView extends JComponent {
             retroFont = new Font("Arial", Font.BOLD, 18);
         }
 
+        // pause button
         pauseButton = new JButton("Pause");
         pauseButton.setFont(retroFont);
         pauseButton.setForeground(Color.YELLOW);
@@ -38,12 +46,12 @@ public class GameView extends JComponent {
         pauseButton.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
         pauseButton.addActionListener(e -> togglePause());
 
-        // Add pause button to the top-right corner.
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setOpaque(false);
         topPanel.add(pauseButton);
         add(topPanel, BorderLayout.NORTH);
 
+        // settings panel
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 if (settingMenu != null) {
@@ -54,6 +62,9 @@ public class GameView extends JComponent {
         });
     }
 
+    /**
+     * Toggles the game pause state and displays/hides the settings menu.
+     */
     public void togglePause() {
         paused = !paused;
         GameManager.isPaused = paused;
@@ -66,6 +77,9 @@ public class GameView extends JComponent {
         }
     }
 
+    /**
+     * Displays the settings panel when the game is paused.
+     */
     private void showSettingsPanel() {
         if (settingMenu == null) {
             settingMenu = new SettingMenu(this);
@@ -80,6 +94,9 @@ public class GameView extends JComponent {
         repaint();
     }
 
+    /**
+     * Hides the settings panel when the game resumes.
+     */
     private void hideSettingsPanel() {
         if (settingMenu != null) {
             remove(settingMenu);
@@ -116,26 +133,30 @@ public class GameView extends JComponent {
             int screenWidth = getWidth();
             int screenHeight = getHeight();
 
-            // Draw username in the top left corner.
+            // username
             String username = "Player: " + GameManager.playerName;
             g.setColor(Color.YELLOW);
             g.drawString(username, 20, 40);
+            String difficulty = GameManager.difficultyMode;
+            g.setColor(Color.RED);
+            g.drawString(difficulty, 20, 80);
+            g.setColor(Color.YELLOW);
 
-            // Draw score in the top center (shifted down to avoid overlap).
+            // player score
             String scoreStr = "Score: " + GameManager.getScore();
             int scoreWidth = fm.stringWidth(scoreStr);
             g.drawString(scoreStr, (screenWidth - scoreWidth) / 2, 70);
 
-            // Bottom left: Level.
-            String levelStr = "Level: " + GameManager.getLevel();
+            // level
+            String levelStr = "Lvl: " + GameManager.getLevel();
             g.drawString(levelStr, 20, screenHeight - 20);
 
-            // Bottom right: Lives.
+            // lives
             String livesStr = "Lives: " + GameManager.getLives();
             int livesWidth = fm.stringWidth(livesStr);
             g.drawString(livesStr, screenWidth - livesWidth - 20, screenHeight - 20);
 
-            // Bottom center: Progress Bar.
+            // progress bar
             int barWidth = 200;
             int barHeight = 20;
             int barX = (screenWidth - barWidth) / 2;
