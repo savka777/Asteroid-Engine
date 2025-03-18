@@ -3,7 +3,7 @@ package SpaceSurvivorGame.Config;
 import java.awt.*;
 
 /**
- * Configurations class is used to create uniformed environment variables that can be changed in one location,
+ * Configurations class is used to create consitant environment variables that can be changed in one location,
  * instead of having to dig through classes and adjust game play. Also, useful for the settings menu, having all the
  * variables in one place that can be easily adjusted.
  */

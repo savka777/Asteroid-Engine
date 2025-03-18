@@ -192,8 +192,7 @@ public class GameManager {
         int oldScore = score;
         score += inc;
         System.out.println("Score " + score);
-        if (score / 5000 > oldScore / 5000) {
-            System.out.println("Adding life");
+        if (score / 5000 > oldScore / 5000 && difficultyMode.equals("Easy")) {
             lives++;
         }
     }

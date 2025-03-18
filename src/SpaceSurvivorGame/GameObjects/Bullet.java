@@ -16,7 +16,7 @@ public class Bullet extends GameObject {
     public static final double RADIUS = BULLET_RADIUS;
     private boolean isAlive = true;
     public static final int LIFE = BULLET_LIFE;
-    public GameObject whoIsFiring; // check's who is firing, important in collision detection.
+    public GameObject whoIsFiring; // check's who is firing
 
 
     /**
