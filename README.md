@@ -1,5 +1,22 @@
+# Java 2D Implementation of Asteroids
+
+![Alt text](src/Screenshots/intro.jpg)
+intro
+
+![Alt text](src/Screenshots/namepanel.jpg)
+player name selection
+
+![Alt text](src/Screenshots/gameplay.jpg)
+gameplay
+
+![Alt text](src/Screenshots/settings.jpg)
+settings menu
+
+![Alt text](src/Screenshots/gameover.jpg)
+game over
+
+
 ### **How to Run**
-![Alt text](src/images/your-image.png)
 
 1. Ensure Java Development Kit (JDK) 17 or higher is installed.
 2. Open the project in your IDE (IntelliJ IDEA, Eclipse).
