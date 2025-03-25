@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CE218-Game-Dev.iml" filepath="$PROJECT_DIR$/CE218-Game-Dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Asteroid-Engine.iml" filepath="$PROJECT_DIR$/Asteroid-Engine.iml" />
     </modules>
   </component>
 </project>
